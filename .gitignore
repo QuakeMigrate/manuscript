@@ -4,3 +4,4 @@ outputs/
 *.sta
 mSEED/
 *.pdf
+.ipynb_checkpoints

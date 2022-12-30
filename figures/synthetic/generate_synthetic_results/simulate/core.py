@@ -68,7 +68,7 @@ class GaussianDerivativeWavelet(Wavelet):
         data = -self.time * np.exp(-self.time**2 / (2*σ**2)) / (σ**3 * np.sqrt(2*π))
 
         # Roll wavelet so first motion is at ~midpoint of array
-        self.data = np.roll(data, int(sps*0.5/frequency)) / max(data)
+        self.data = np.roll(data, int(sps*0.5/frequency) + 3) / max(data)
 
 
 def rotation2d(θ: float) -> np.ndarray:

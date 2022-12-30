@@ -22,7 +22,7 @@ station_file = "./inputs/synthetic_stations.sta"
 data_in = "./inputs/mSEED"
 lut_out = "./outputs/lut/example.LUT"
 run_path = "./outputs/runs"
-run_name = "example_run"
+run_name = "example_run_p_only"
 
 # --- Set time period over which to run locate ---
 starttime = "2021-02-18T12:03:50.0"
@@ -40,13 +40,15 @@ lut = read_lut(lut_file=lut_out)
 
 # --- Create new Onset ---
 onset = STALTAOnset(position="centred", sampling_rate=100)
-onset.phases = ["P", "S"]
+onset.phases = ["P"]#, "S"]
 onset.bandpass_filters = {
     "P": [1, 10, 2],
-    "S": [1, 10, 2]}
+    # "S": [1, 10, 2]
+}
 onset.sta_lta_windows = {
     "P": [0.1, 1.5],
-    "S": [0.1, 1.5]}
+    # "S": [0.1, 1.5]
+}
 
 # --- Create new PhasePicker ---
 picker = GaussianPicker(onset=onset)

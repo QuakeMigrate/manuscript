@@ -22,7 +22,7 @@ station_file = "./inputs/synthetic_stations.sta"
 data_in = "./inputs/mSEED"
 lut_out = "./outputs/lut/example.LUT"
 run_path = "./outputs/runs"
-run_name = "example_run"
+run_name = "example_run_p_only"
 
 # --- Set time period over which to run detect ---
 starttime = "2021-02-18T12:03:50.0"
@@ -36,17 +36,19 @@ archive = Archive(archive_path=data_in, stations=stations, archive_format="YEAR/
 
 # --- Load the LUT ---
 lut = read_lut(lut_file=lut_out)
-lut.decimate([4, 4, 1], inplace=True)
+lut.decimate([2, 2, 2], inplace=True)
 
 # --- Create new Onset ---
-onset = STALTAOnset(position="centred", sampling_rate=50)
-onset.phases = ["P", "S"]
+onset = STALTAOnset(position="classic", sampling_rate=50)
+onset.phases = ["P"]#, "S"]
 onset.bandpass_filters = {
     "P": [1, 10, 2],
-    "S": [1, 10, 2]}
+    # "S": [1, 10, 2]
+}
 onset.sta_lta_windows = {
     "P": [0.2, 1.5],
-    "S": [0.2, 1.5]}
+    # "S": [0.2, 1.5]
+}
 
 # --- Create new QuakeScan ---
 scan = QuakeScan(archive, lut, onset=onset, run_path=run_path,

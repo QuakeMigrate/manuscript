@@ -19,7 +19,7 @@ from quakemigrate.io import read_lut
 # --- i/o paths ---
 lut_file = "./outputs/lut/example.LUT"
 run_path = "./outputs/runs"
-run_name = "example_run"
+run_name = "example_run_p_only"
 
 # --- Set time period over which to run trigger ---
 starttime = "2021-02-18T12:03:50.0"
@@ -41,7 +41,7 @@ trig.normalise_coalescence = True
 
 # --- Static threshold ---
 trig.threshold_method = "static"
-trig.static_threshold = 3.5
+trig.static_threshold = 2.
 
 # --- Dynamic (Median Absolute Deviation) threshold ---
 # trig.threshold_method = "dynamic"

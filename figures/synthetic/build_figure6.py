@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This script creates the lookup table and synthetic waveforms for the toy
-example used in the manuscript:
+This script builds Figure 6 of the manuscript:
 
     QuakeMigrate **
 
@@ -33,9 +32,7 @@ marginalised_coa_map = read_marginal_coalescence(
     run_dir / "locate/marginal_coalescence_maps/20210218120500700.npy"
 )
 
-event = pd.read_csv(
-    run_dir / "locate/events/20210218120500700.event"
-)
+event = pd.read_csv(run_dir / "locate/events/20210218120500700.event")
 
 # Extract indices and grid coordinates of maximum coalescence
 coa_map = np.ma.masked_invalid(marginalised_coa_map)
@@ -43,7 +40,7 @@ idx_max = np.column_stack(np.where(coa_map == np.nanmax(coa_map)))[0]
 slices = [
     coa_map[:, :, idx_max[2]],
     coa_map[:, idx_max[1], :],
-    coa_map[idx_max[0], :, :].T
+    coa_map[idx_max[0], :, :].T,
 ]
 otime = obspy.UTCDateTime(event["DT"].values[0])
 
@@ -67,7 +64,7 @@ grid_size = lut.node_spacing * lut.node_count
 aspect = (extent[0] * grid_size[1]) / (extent[1] * grid_size[0])
 xy.set_aspect(aspect=aspect)
 
-bounds = [[-0.15, 0.15], [-0.15, 0.15], [-1., 30.]]
+bounds = [[-0.15, 0.15], [-0.15, 0.15], [-1.0, 30.0]]
 for i, j, ax in [(0, 1, xy), (0, 2, xz)]:
     gminx, gmaxx = bounds[i]
     gminy, gmaxy = bounds[j]
@@ -82,7 +79,7 @@ for i, j, ax in [(0, 1, xy), (0, 2, xz)]:
 
     slice_ = slices[i + j - 1]
     nx, ny = [dim + 1 for dim in slice_.shape]
-    grid1, grid2 = np.mgrid[gminx:gmaxx:nx*1j, gminy:gmaxy:ny*1j]
+    grid1, grid2 = np.mgrid[gminx : gmaxx : nx * 1j, gminy : gmaxy : ny * 1j]
     sc = ax.pcolormesh(grid1, grid2, slice_, edgecolors="face", cmap="viridis")
 
 # # --- Add colourbar ---
@@ -96,7 +93,7 @@ xy.scatter(
     s=12,
     marker="^",
     zorder=20,
-    c="white"
+    c="white",
 )
 xz.scatter(
     lut.station_data.Longitude.values,
@@ -104,15 +101,25 @@ xz.scatter(
     s=8,
     marker="^",
     zorder=20,
-    c="white"
+    c="white",
 )
 
 error = [event["GAU_ErrX"], event["GAU_ErrY"], event["GAU_ErrZ"]]
 xyz = lut.coord2grid(hypocentre)[0]
 d = abs(hypocentre - lut.coord2grid(xyz + error, inverse=True))[0]
 
-xy_err = Ellipse((hypocentre[0], hypocentre[1]), 2*d[0], 2*d[1], lw=1, edgecolor="k", fill=False, label="Gaussian uncertainty")
-xz_err = Ellipse((hypocentre[0], hypocentre[2]), 2*d[0], 2*d[2], lw=1, edgecolor="k", fill=False)
+xy_err = Ellipse(
+    (hypocentre[0], hypocentre[1]),
+    2 * d[0],
+    2 * d[1],
+    lw=1,
+    edgecolor="k",
+    fill=False,
+    label="Gaussian uncertainty",
+)
+xz_err = Ellipse(
+    (hypocentre[0], hypocentre[2]), 2 * d[0], 2 * d[2], lw=1, edgecolor="k", fill=False
+)
 xy.add_patch(xy_err)
 xz.add_patch(xz_err)
 
@@ -129,7 +136,7 @@ scalebar = AnchoredSizeBar(
     sep=5,
     frameon=False,
     color="white",
-    fontproperties=fm.FontProperties(size=6)
+    fontproperties=fm.FontProperties(size=6),
 )
 xy.add_artist(scalebar)
 
@@ -143,12 +150,31 @@ xy.tick_params(
     labelleft=True,
     labeltop=True,
     labelright=False,
-    labelbottom=False,
-    size=3,
-    width=1.2
+    labelbottom=False
 )
-xy.set_ylabel("Latitude, $\degree$")
+xy.set_ylabel("Latitude / $\degree$N")
 xy.yaxis.set_label_position("left")
+
+xy.text(
+    0.03,
+    0.03,
+    "a",
+    ha="center",
+    va="center",
+    transform=xy.transAxes,
+    fontweight="bold",
+    color="white"
+)
+xz.text(
+    0.03,
+    0.07,
+    "b",
+    ha="center",
+    va="center",
+    transform=xz.transAxes,
+    fontweight="bold",
+    color="white"
+)
 
 xz.invert_yaxis()
 xz.tick_params(
@@ -160,15 +186,10 @@ xz.tick_params(
     labelleft=True,
     labeltop=False,
     labelright=False,
-    labelbottom=True,
-    size=3,
-    width=1.2
+    labelbottom=True
 )
-xz.set_xlabel("Longitude, $\degree$")
-xz.set_ylabel(f"Depth, {lut.unit_name}")
+xz.set_xlabel("Longitude / $\degree$E")
+xz.set_ylabel(f"Depth / {lut.unit_name}")
 xz.yaxis.set_label_position("left")
-
-plt.setp(xy.spines.values(), linewidth=1.2)
-plt.setp(xz.spines.values(), linewidth=1.2)
 
 plt.savefig("figure6.pdf", dpi=400, bbox_inches="tight")

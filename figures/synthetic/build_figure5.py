@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This script creates the lookup table and synthetic waveforms for the toy
-example used in the manuscript:
+This script builds Figure 5 of the manuscript:
 
     QuakeMigrate **
 
@@ -11,6 +10,7 @@ import pathlib
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.dates as md
 import obspy
 import pandas as pd
 
@@ -22,9 +22,9 @@ mpl.rcParams["font.family"] = "Helvetica"
 input_data = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
 
 # Set QM trigger parameters - MW and MEI are in seconds
-marginal_window = 1.
-minimum_event_interval = 6.
-threshold = 2.
+marginal_window = 1.0
+minimum_event_interval = 6.0
+threshold = 3.5
 
 events = [pd.read_csv(infile) for infile in input_data.glob("trigger/events/*.csv")]
 events = pd.concat(events)
@@ -33,12 +33,10 @@ events["MinTime"] = events["MinTime"].apply(obspy.UTCDateTime)
 events["MaxTime"] = events["MaxTime"].apply(obspy.UTCDateTime)
 
 starttime = obspy.UTCDateTime("2021-049T12:04:15.0")
-endtime = starttime + 90.
+endtime = starttime + 90.0
 
 coalescence = obspy.read(
-    str(input_data / "detect/scanmseed/2021_*"),
-    starttime=starttime,
-    endtime=endtime
+    str(input_data / "detect/scanmseed/2021_*"), starttime=starttime, endtime=endtime
 )
 
 norm_coa = coalescence.select(station="COA_N")[0]
@@ -60,41 +58,24 @@ for _, event in events.iterrows():
         continue
 
     ax.axvspan(
-        min_dt,
-        mw_stt,
-        label="Minimum event interval",
-        alpha=0.2,
-        color="#777777"
+        min_dt, mw_stt, label="Minimum event interval", alpha=0.2, color="#777777"
     )
     ax.axvspan(mw_end, max_dt, alpha=0.2, color="#777777")
-    ax.axvspan(
-        mw_stt,
-        mw_end,
-        label="Marginal window",
-        alpha=0.2,
-        color="#2ca25f"
-    )
+    ax.axvspan(mw_stt, mw_end, label="Marginal window", alpha=0.2, color="#2ca25f")
     ax.axvline(
         event["CoaTime"].datetime,
-        label="Triggered event",
         lw=0.25,
         alpha=0.4,
-        color="#1F77B4"
+        color="#1F77B4",
     )
 
 ax.axhline(threshold, label="Detection threshold", color="#2c7fb8", linestyle="--")
 
+plt.legend(fontsize=8, loc=2, frameon=False)
+
 ax.set_ylabel("Normalised coalescence")
-ax.set_xlabel("Time")
+ax.set_xlabel("Time / HH:MM:SS")
 ax.xaxis.set_major_formatter(DateFormatter("%H:%M:%S", 2))
 ax.set_xlim([starttime.datetime, endtime.datetime])
 
-spine_weight = 1.2
-plt.setp(ax.spines.values(), linewidth=spine_weight)
-
-ax.xaxis.set_tick_params(width=spine_weight)
-ax.yaxis.set_tick_params(width=spine_weight)
-
-ax.tick_params(length=3)
-
-plt.savefig("figure5.pdf", dpi=400, bbox_inches="tight")
+plt.savefig("figure5.png", dpi=400, bbox_inches="tight")

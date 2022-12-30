@@ -4,3 +4,5 @@ outputs/
 *.sta
 mSEED/
 *.pdf
+*.png
+.DS_Store

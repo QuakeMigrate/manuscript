@@ -3,6 +3,8 @@ logs/
 outputs/
 *.sta
 mSEED/
+DATALESS/
 *.pdf
 *.png
 .DS_Store
+.ipynb_checkpoints

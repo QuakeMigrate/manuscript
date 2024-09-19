@@ -45,8 +45,8 @@ datacentres = ["EARTHSCOPE"]
 domain = GlobalDomain()
 
 # --- Set time period over which download data ---
-starttime = UTCDateTime("2011-298T23:55:00")
-endtime = UTCDateTime("2011-300T00:05:00")
+starttime = UTCDateTime("2011-298T23:50:00")
+endtime = UTCDateTime("2011-300T00:10:00")
 
 # --- Read in station file ---
 stations = read_stations(station_file)

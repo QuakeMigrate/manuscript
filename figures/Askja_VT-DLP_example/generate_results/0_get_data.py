@@ -40,7 +40,7 @@ def get_mseed_storage(network, station, location, channel, starttime, endtime):
 
 # --- Set network code & client ---
 network = "Z7"
-datacentres = ["EARTHSCOPE"]
+datacentres = ["IRIS"]
 # global domain (specifying network and stations instead)
 domain = GlobalDomain()
 

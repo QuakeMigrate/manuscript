@@ -1,23 +1,22 @@
-# -*- coding: utf-8 -*-
 """
 This script builds Figure 6 of the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 
 import pathlib
 
 import matplotlib as mpl
-import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-from matplotlib.patches import Ellipse
-from matplotlib.ticker import MultipleLocator
-from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
+import matplotlib.pyplot as plt
 import numpy as np
 import obspy
 import pandas as pd
-
+from matplotlib.patches import Ellipse
+from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 from quakemigrate.io import read_lut, read_marginal_coalescence
 
 
@@ -29,10 +28,10 @@ lut = read_lut(lut_file="./generate_synthetic_results/outputs/lut/example.LUT")
 run_dir = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
 
 marginalised_coa_map = read_marginal_coalescence(
-    run_dir / "locate/marginal_coalescence_maps/20210218120500700.npy"
+    run_dir / "locate/marginalised_coalescence_maps/20210218120500160.npy"
 )
 
-event = pd.read_csv(run_dir / "locate/events/20210218120500700.event")
+event = pd.read_csv(run_dir / "locate/events/20210218120500160.event")
 
 # Extract indices and grid coordinates of maximum coalescence
 coa_map = np.ma.masked_invalid(marginalised_coa_map)
@@ -53,7 +52,7 @@ hypocentre = [event["X"].values[0], event["Y"].values[0], event["Z"].values[0]]
 xy = plt.subplot2grid((7, 5), (0, 0), colspan=5, rowspan=5, fig=fig)
 xz = plt.subplot2grid((7, 5), (5, 0), colspan=5, rowspan=2, fig=fig)
 
-xz.get_shared_x_axes().join(xy, xz)
+xz.get_shared_x_axes().joined(xy, xz)
 
 # --- Set aspect ratio ---
 # Aspect is defined such that a circle will be stretched so that its
@@ -64,7 +63,7 @@ grid_size = lut.node_spacing * lut.node_count
 aspect = (extent[0] * grid_size[1]) / (extent[1] * grid_size[0])
 xy.set_aspect(aspect=aspect)
 
-bounds = [[-0.15, 0.15], [-0.15, 0.15], [-1.0, 30.0]]
+bounds = np.stack(cells_extent, axis=-1)
 for i, j, ax in [(0, 1, xy), (0, 2, xz)]:
     gminx, gmaxx = bounds[i]
     gminy, gmaxy = bounds[j]
@@ -104,7 +103,12 @@ xz.scatter(
     c="white",
 )
 
-error = [event["GAU_ErrX"], event["GAU_ErrY"], event["GAU_ErrZ"]]
+# hypocentre = [pos.values[0] for pos in [event["GAU_X"], event["GAU_Y"], event["GAU_Z"]]]
+error = [
+    event["GAU_ErrX"].values[0],
+    event["GAU_ErrY"].values[0],
+    event["GAU_ErrZ"].values[0],
+]
 xyz = lut.coord2grid(hypocentre)[0]
 d = abs(hypocentre - lut.coord2grid(xyz + error, inverse=True))[0]
 
@@ -150,9 +154,9 @@ xy.tick_params(
     labelleft=True,
     labeltop=True,
     labelright=False,
-    labelbottom=False
+    labelbottom=False,
 )
-xy.set_ylabel("Latitude / $\degree$N")
+xy.set_ylabel(r"Latitude / $\degree$N")
 xy.yaxis.set_label_position("left")
 
 xy.text(
@@ -163,7 +167,7 @@ xy.text(
     va="center",
     transform=xy.transAxes,
     fontweight="bold",
-    color="white"
+    color="white",
 )
 xz.text(
     0.03,
@@ -173,7 +177,7 @@ xz.text(
     va="center",
     transform=xz.transAxes,
     fontweight="bold",
-    color="white"
+    color="white",
 )
 
 xz.invert_yaxis()
@@ -186,10 +190,10 @@ xz.tick_params(
     labelleft=True,
     labeltop=False,
     labelright=False,
-    labelbottom=True
+    labelbottom=True,
 )
-xz.set_xlabel("Longitude / $\degree$E")
+xz.set_xlabel(r"Longitude / $\degree$E")
 xz.set_ylabel(f"Depth / {lut.unit_name}")
 xz.yaxis.set_label_position("left")
 
-plt.savefig("figure6.pdf", dpi=400, bbox_inches="tight")
+plt.savefig("figure6.png", dpi=400, bbox_inches="tight")

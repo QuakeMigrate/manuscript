@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 This script builds Figure 3 of the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
-
 from quakemigrate.io import read_lut
 
 
@@ -43,17 +43,17 @@ ax.text(
     fontweight="bold",
 )
 
-ax.set_xlabel("Longitude / $\degree$E")
+ax.set_xlabel(r"Longitude / $\degree$E")
 ax.set_xlim([-0.15, 0.15])
 
-ax.set_ylabel("Latitude / $\degree$N")
+ax.set_ylabel(r"Latitude / $\degree$N")
 ax.set_ylim([-0.15, 0.15])
 
 ax.tick_params(top=True, right=True)
 
 ax = axes[1]
-ax.plot(lut.velocity_model.Vp, lut.velocity_model.Depth, c="#1b9e77", label="Vp")
-ax.plot(lut.velocity_model.Vs, lut.velocity_model.Depth, c="#7570b3", label="Vs")
+ax.plot(lut.velocity_model.Vp, lut.velocity_model.Depth, c="#F03B20", label="Vp")
+ax.plot(lut.velocity_model.Vs, lut.velocity_model.Depth, c="#3182BD", label="Vs")
 
 ax.text(
     0.04,

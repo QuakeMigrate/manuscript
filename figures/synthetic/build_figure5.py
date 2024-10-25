@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 This script builds Figure 5 of the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 
@@ -13,7 +14,6 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as md
 import obspy
 import pandas as pd
-
 from quakemigrate.util import DateFormatter
 
 plt.style.use("qm_manuscript")
@@ -22,15 +22,15 @@ mpl.rcParams["font.family"] = "Helvetica"
 input_data = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
 
 # Set QM trigger parameters - MW and MEI are in seconds
-marginal_window = 1.0
+marginal_window = 0.2
 minimum_event_interval = 6.0
-threshold = 3.5
+threshold = 4.0
 
 events = [pd.read_csv(infile) for infile in input_data.glob("trigger/events/*.csv")]
 events = pd.concat(events)
 events["CoaTime"] = events["CoaTime"].apply(obspy.UTCDateTime)
-events["MinTime"] = events["MinTime"].apply(obspy.UTCDateTime)
-events["MaxTime"] = events["MaxTime"].apply(obspy.UTCDateTime)
+# events["MinTime"] = events["MinTime"].apply(obspy.UTCDateTime)
+# events["MaxTime"] = events["MaxTime"].apply(obspy.UTCDateTime)
 
 starttime = obspy.UTCDateTime("2021-049T12:04:15.0")
 endtime = starttime + 90.0
@@ -41,7 +41,7 @@ coalescence = obspy.read(
 
 norm_coa = coalescence.select(station="COA_N")[0]
 
-fig, ax = plt.subplots(1, figsize=(7.08661, 3))
+fig, ax = plt.subplots(1, figsize=(7.08661, 3), constrained_layout=True)
 
 dt = norm_coa.times(type="utcdatetime")
 dt = [str(datetime) for datetime in dt]
@@ -49,8 +49,8 @@ dt = pd.to_datetime(dt).values
 ax.plot(dt, norm_coa.data / 1e5, color="k", lw=0.4, zorder=10)
 
 for _, event in events.iterrows():
-    min_dt = event["MinTime"].datetime
-    max_dt = event["MaxTime"].datetime
+    min_dt = (event["CoaTime"] - marginal_window - 6).datetime
+    max_dt = (event["CoaTime"] + marginal_window + 6).datetime
     mw_stt = (event["CoaTime"] - marginal_window).datetime
     mw_end = (event["CoaTime"] + marginal_window).datetime
 
@@ -78,4 +78,4 @@ ax.set_xlabel("Time / HH:MM:SS")
 ax.xaxis.set_major_formatter(DateFormatter("%H:%M:%S", 2))
 ax.set_xlim([starttime.datetime, endtime.datetime])
 
-plt.savefig("figure5.png", dpi=400, bbox_inches="tight")
+plt.savefig("figure5.png", dpi=400)

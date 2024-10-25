@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 This script builds Figure S1 of the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 
@@ -27,15 +28,11 @@ ttime_noise = np.random.normal(scale=0.05, size=1)
 amp_noise = np.random.normal(scale=0.1, size=len(wavelet.data))
 
 noisy_wavelet = np.roll(
-    wavelet.data.copy() + amp_noise,
-    int(wavelet.sps * ttime_noise)
+    wavelet.data.copy() + amp_noise, int(wavelet.sps * ttime_noise[0])
 )
 
 fig, axes = plt.subplots(
-    ncols=1,
-    nrows=2,
-    figsize=(7.08661, 4),
-    constrained_layout=True
+    ncols=1, nrows=2, figsize=(7.08661, 4), constrained_layout=True
 )
 
 ax = axes[0]

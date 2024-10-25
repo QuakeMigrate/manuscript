@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
 """
-This script creates the lookup table and synthetic waveforms for the toy
-example used in the manuscript:
+This script creates the lookup table for the synthetic example presented in the
+manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
-
-import pathlib
 
 import numpy as np
 from obspy.core import AttribDict
@@ -18,7 +17,7 @@ from quakemigrate.lut import compute_traveltimes
 
 
 # Build synthetic lookup table
-station_file = "./inputs/synthetic_stations.sta"
+station_file = "./inputs/synthetic_stations.txt"
 vmodel_file = "./inputs/velocity_model.csv"
 lut_out = "./outputs/lut/example.LUT"
 
@@ -29,7 +28,7 @@ stations["Network"] = ["SC"] * 10
 stations["Name"] = [f"STA{i}" for i in range(10)]
 stations["Longitude"] = rng.uniform(low=-0.15, high=0.15, size=10)
 stations["Latitude"] = rng.uniform(low=-0.15, high=0.15, size=10)
-stations["Elevation"] = [-0.0] * 10
+stations["Elevation"] = rng.uniform(low=-0.0, high=1.0, size=10)
 stations.to_csv(station_file, index=False)
 
 # --- Read in the velocity model file ---
@@ -41,8 +40,8 @@ gproj = Proj(
     units="km",
     lon_0=0.0,
     lat_0=0.0,
-    lat_1=-0.149,
-    lat_2=0.1491,
+    lat_1=-0.10,
+    lat_2=0.101,
     datum="WGS84",
     ellps="WGS84",
     no_defs=True,

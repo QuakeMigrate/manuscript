@@ -10,5 +10,4 @@ DATALESS/
 .ipynb_checkpoints
 synthetic_stations.txt
 4D_coalescence/
-sentinel_*
 *.csv

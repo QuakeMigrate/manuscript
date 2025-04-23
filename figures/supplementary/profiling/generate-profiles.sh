@@ -12,7 +12,7 @@ memray run -o profiles/qm-detect.decimation-factor_4.n-threads_16.timestep_300.b
 memray run -o profiles/qm-detect.decimation-factor_2.n-threads_16.timestep_50.bin profile_detect.py --timestep 50
 memray run -o profiles/qm-detect.decimation-factor_2.n-threads_16.timestep_600.bin profile_detect.py --timestep 600
 memray run -o profiles/qm-detect.decimation-factor_2.n-threads_16.timestep_1200.bin profile_detect.py --timestep 1200
-memray run -o profiles/qm-detect.decimation-factor_2.n-threads_16.timestep_1800.bin profile_detect.py --timestep 2400
+memray run -o profiles/qm-detect.decimation-factor_2.n-threads_16.timestep_1800.bin profile_detect.py --timestep 1800
 
 # Sweep over n_threads, decimation-factor = 2, timestep = 300 s
 memray run -o profiles/qm-detect.decimation-factor_2.n-threads_1.timestep_300.bin profile_detect.py --n_threads 1

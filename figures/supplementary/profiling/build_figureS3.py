@@ -83,7 +83,7 @@ ax.set_ylabel("Memory high watermark / GiB")
 ax.set_ylim([0, 25])
 
 # Timestep
-timesteps = [50, 300, 600, 1200, 2400]
+timesteps = [50, 300, 600, 1200, 1800]
 runtimes, high_watermarks, average_memory = [], [], []
 for timestep in timesteps:
     profile = profiles[

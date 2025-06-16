@@ -30,7 +30,7 @@ earthquake_coords = [0.0, 0.0, 15.0]
 earthquake_ijk = lut.index2coord(earthquake_coords, inverse=True)
 
 # Make figure and axes using semantic layout
-fig = plt.figure(figsize=(7.08661, 3.8), constrained_layout=True)
+fig = plt.figure(figsize=(18 / 2.54, 9.5 / 2.54), constrained_layout=True)
 ax_dict = fig.subplot_mosaic("ABBC;DEEF", empty_sentinel="X")
 
 ax = ax_dict["A"]
@@ -51,7 +51,7 @@ for xpos in range(node_count):
             ymax=ypos + 1,
             xmin=xpos / node_count,
             xmax=(xpos + 1) / node_count,
-            color="#21908cff",
+            color="#c1c1c1",
             lw=0.1,
         )
 
@@ -61,9 +61,18 @@ for xpos in np.arange(node_count / 2):
         ymax=0.5,
         xmin=xpos / node_count,
         xmax=(xpos + 1) / node_count,
-        color="#21908cff",
+        color="#c1c1c1",
         lw=0.1,
     )
+
+ax.axhspan(
+    ymin=-0.5,
+    ymax=0.5,
+    xmin=(node_count - 1) / (2 * node_count),
+    xmax=(node_count + 1) / (2 * node_count),
+    color="#21908cff",
+    lw=0.1,
+)
 
 for ax in [ax_dict["A"], ax_dict["D"]]:
     ax.set_yticklabels([])

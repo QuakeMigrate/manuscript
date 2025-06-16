@@ -2,7 +2,9 @@
 This script collates all located events for the Rutford cryoseismicity example and
 filters them, as set out in the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 
@@ -31,7 +33,7 @@ catalogue["GlobalCovarianceProduct"] = catalogue.apply(product, axis=1)
 catalogue["GlobalCovarianceGeometricMean"] = catalogue.apply(geometric_mean, axis=1)
 
 # Filter
-catalogue = catalogue[catalogue["COA"] >= 6.0]
+catalogue = catalogue[catalogue["COA"] >= 5.0]
 catalogue = catalogue[catalogue["GlobalCovarianceGeometricMean"] <= 500]
 
 catalogue.to_csv("rutford_icequakes_gc500_coa6.csv", index=False)

@@ -1,11 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 This script will download the waveform data and an instrument response
 inventory from IRIS (in miniSEED and STATIONXML formats, respectively)
 for the 24-hour Askja volcano (Iceland) Volcanotectonic (VT) & Deep-Long-Period
 (DLP) event example presented in the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 
@@ -52,10 +53,32 @@ endtime = UTCDateTime("2011-300T00:10:00")
 stations = read_stations(station_file)
 stations_string = ",".join(stations["Name"])
 
+mdl = MassDownloader(providers=datacentres)
+
 # --- Set up request ---
 restrictions = Restrictions(
-    starttime=starttime,
-    endtime=endtime,
+    starttime=UTCDateTime("2011-298T23:50:00"),
+    endtime=UTCDateTime("2011-299T00:00:00"),
+    chunklength_in_sec=600,
+    network=network,
+    station=stations_string,
+    channel_priorities=["HH[ZNE]", "BH[ZNE]"],
+    minimum_interstation_distance_in_m=0,
+)
+
+# --- Download waveform data ---
+mdl.download(
+    domain,
+    restrictions,
+    threads_per_client=4,
+    mseed_storage=get_mseed_storage,
+    stationxml_storage=stationxml_storage,
+)
+
+# --- Set up request ---
+restrictions = Restrictions(
+    starttime=UTCDateTime("2011-299T00:00:00"),
+    endtime=UTCDateTime("2011-300T00:00:00"),
     chunklength_in_sec=86400,
     network=network,
     station=stations_string,
@@ -64,7 +87,26 @@ restrictions = Restrictions(
 )
 
 # --- Download waveform data ---
-mdl = MassDownloader(providers=datacentres)
+mdl.download(
+    domain,
+    restrictions,
+    threads_per_client=4,
+    mseed_storage=get_mseed_storage,
+    stationxml_storage=stationxml_storage,
+)
+
+# --- Set up request ---
+restrictions = Restrictions(
+    starttime=UTCDateTime("2011-300T00:00:00"),
+    endtime=UTCDateTime("2011-300T00:10:00"),
+    chunklength_in_sec=600,
+    network=network,
+    station=stations_string,
+    channel_priorities=["HH[ZNE]", "BH[ZNE]"],
+    minimum_interstation_distance_in_m=0,
+)
+
+# --- Download waveform data ---
 mdl.download(
     domain,
     restrictions,

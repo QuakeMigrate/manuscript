@@ -1,23 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 This script runs the detect stage for the Askja volcano (Iceland)
 Volcanotectonic (VT) & Deep-Long-Period (DLP) event example presented in the
 manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
-
-# Stop numpy using all available threads (these environment variables must be
-# set before numpy is imported for the first time).
-import os
-
-os.environ.update(
-    OMP_NUM_THREADS="1",
-    OPENBLAS_NUM_THREADS="1",
-    NUMEXPR_NUM_THREADS="1",
-    MKL_NUM_THREADS="1",
-)
 
 from quakemigrate import QuakeScan
 from quakemigrate.io import Archive, read_lut, read_stations
@@ -28,11 +18,11 @@ station_file = "./inputs/askja_stations.txt"
 data_in = "./inputs/mSEED"
 lut_file = "./outputs/lut/askja.LUT"
 run_path = "./outputs/runs"
-run_name = "24h_run"
+run_name = "paper_run"
 
 # --- Set time period over which to run detect ---
-starttime = "2011-10-26T00:00:00.0"
-endtime = "2011-10-27T00:00:00.0"
+starttime = "2011-299T00:00:00.0"
+endtime = "2011-300T00:00:00.0"
 
 # --- Read in station file ---
 stations = read_stations(station_file)

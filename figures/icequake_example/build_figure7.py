@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 """
-This script creates the lookup table and synthetic waveforms for the toy
-example used in the manuscript:
+This script builds Figure 7 of the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 

@@ -15,7 +15,7 @@ import numpy as np
 import obspy
 import pandas as pd
 from quakemigrate.core import centred_sta_lta
-from quakemigrate.io import read_lut
+from quakemigrate.io import read_lut, read_coalescence
 
 
 plt.style.use("qm_manuscript")
@@ -209,7 +209,7 @@ ax_dict["E"].set_xlabel(r"Time $\longrightarrow$")
 
 ax = ax_dict["C"]
 
-coa_data = np.load(run_path / "locate/coalescence_maps/20210218120500160.npy")
+coa_data = read_coalescence(run_path / "locate/coalescence_maps/20210218120500160.npy")
 slice_ = coa_data[:, :, 32, 0]
 
 bounds = np.stack(lut.get_grid_extent(cells=True), axis=-1)

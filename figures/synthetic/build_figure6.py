@@ -17,7 +17,7 @@ import obspy
 import pandas as pd
 from matplotlib.patches import Ellipse
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
-from quakemigrate.io import read_lut, read_marginal_coalescence
+from quakemigrate.io import read_lut, read_coalescence
 
 
 plt.style.use("qm_manuscript")
@@ -25,13 +25,13 @@ mpl.rcParams["font.family"] = "Helvetica"
 
 lut = read_lut(lut_file="./generate_synthetic_results/outputs/lut/example.LUT")
 
-run_dir = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
+run_path = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
 
-marginalised_coa_map = read_marginal_coalescence(
-    run_dir / "locate/marginalised_coalescence_maps/20210218120500160.npy"
+marginalised_coa_map = read_coalescence(
+    run_path / "locate/marginalised_coalescence_maps/20210218120500160.npy"
 )
 
-event = pd.read_csv(run_dir / "locate/events/20210218120500160.event")
+event = pd.read_csv(run_path / "locate/events/20210218120500160.event")
 
 # Extract indices and grid coordinates of maximum coalescence
 coa_map = np.ma.masked_invalid(marginalised_coa_map)

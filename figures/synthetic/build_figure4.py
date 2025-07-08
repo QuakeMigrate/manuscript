@@ -1,5 +1,5 @@
 """
-This script builds Figure 5 of the manuscript:
+This script builds Figure 4 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -78,4 +78,4 @@ ax.set_xlabel("Time / HH:MM:SS")
 ax.xaxis.set_major_formatter(DateFormatter("%H:%M:%S", 2))
 ax.set_xlim([starttime.datetime, endtime.datetime])
 
-plt.savefig("figure5.png", dpi=400)
+plt.savefig("figure4.png", dpi=400)

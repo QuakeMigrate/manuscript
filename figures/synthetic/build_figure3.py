@@ -1,5 +1,5 @@
 """
-This script builds Figure 4 of the manuscript:
+This script builds Figure 3 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -105,4 +105,4 @@ for ax in [axes.flatten()[0], axes.flatten()[2]]:
 axes[1][1].set_xlabel("T", c="white")
 fig.suptitle(r"Time $\longrightarrow$", x=0.525, y=0.025)
 
-plt.savefig("figure4.png", dpi=400)
+plt.savefig("figure3.png", dpi=400)

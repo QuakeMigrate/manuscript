@@ -1,5 +1,5 @@
 """
-This script builds Figure 6 of the manuscript:
+This script builds Figure 5 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -196,4 +196,4 @@ xz.set_xlabel(r"Longitude / $\degree$E")
 xz.set_ylabel(f"Depth / {lut.unit_name}")
 xz.yaxis.set_label_position("left")
 
-plt.savefig("figure6.png", dpi=400, bbox_inches="tight")
+plt.savefig("figure5.png", dpi=400, bbox_inches="tight")

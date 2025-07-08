@@ -1,5 +1,5 @@
 """
-This script builds Figure 3 of the manuscript:
+This script builds Figure S1 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -80,4 +80,4 @@ ax.tick_params(which="both", top=True, left=True)
 ax.xaxis.set_minor_locator(MultipleLocator(0.25))
 ax.yaxis.set_minor_locator(MultipleLocator(1))
 
-plt.savefig("figure3.png", dpi=400)
+plt.savefig("figureS1.png", dpi=400)

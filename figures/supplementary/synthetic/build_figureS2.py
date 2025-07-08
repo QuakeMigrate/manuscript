@@ -1,5 +1,5 @@
 """
-This script builds Figure S1 of the manuscript:
+This script builds Figure S2 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -65,4 +65,4 @@ for ax, axlabel, label in zip(axes, "ab", labels):
     )
     ax.text(0.99, 0.9, label, ha="right", va="center", transform=ax.transAxes)
 
-fig.savefig("figureS1.png", dpi=400)
+fig.savefig("figureS2.png", dpi=400)

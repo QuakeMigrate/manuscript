@@ -23,9 +23,11 @@ from obspy.geodetics import gps2dist_azimuth
 plt.style.use("../../qm_manuscript.mplstyle")
 plt.rcParams.update({"font.family": "Helvetica"})
 
+# Read in matched catalogues
 man_qm_combined = pd.read_csv("./generate_results/outputs/QM-man_combined.csv")
 
 
+# Functions
 def get_aspect(xmin, xmax, ymin, ymax, zmin, zmax, scale=1000):
     """
     Get aspect ratios for map, lat XS & lon XS for given coords.
@@ -75,10 +77,11 @@ def get_scalebar_deg(dist, xmin, xmax, ymin, ymax):
     return deg
 
 
+## XY files
 # Cross-section topography
 topo_bedrock_ew = pd.read_csv(
     "./XY_FILES/topo_section_lon_dyngja.xygt",
-    sep="\s+",
+    sep="\\s+",
     comment="#",
     names=["X", "Y", "d", "Z"],
 )
@@ -251,7 +254,7 @@ for i, (name, locs, ax_map) in enumerate(
     ax_map.set_xlim(xmin, xmax)
     ax_map.set_ylim(ymin, ymax)
     if i == 0:
-        ax_map.set_ylabel("Latitude / $\degree$N")
+        ax_map.set_ylabel("Latitude / $\\degree$N")
         ax_map.tick_params(
             which="both", bottom=True, top=True, right=True, labelbottom=False
         )
@@ -286,8 +289,6 @@ for i, (name, locs, ax_xs) in enumerate(
     zip(["QuakeMigrate", "Manual"], ["_QM", "_MAN"], [ax_xs_1, ax_xs_2])
 ):
     ## Plot cross-section
-    # ax_xs.scatter(df[f"X{locs}"], df[f"Z{locs}"], c=df[f"{c}{locs}"], cmap=cmap, alpha=alpha,
-    #               vmin=vmin, vmax=vmax, s=2, lw=0) #((df.ML+2)**5)/30)
     ax_xs.scatter(
         df[f"X{locs}"],
         df[f"Z{locs}"],
@@ -298,7 +299,7 @@ for i, (name, locs, ax_xs) in enumerate(
         vmax=vmax,
         s=2,
         lw=0,
-    )  # ((df.ML+2)**5)/30)
+    )
     # Grid
     ax_xs.grid("k", alpha=0.1)
 
@@ -316,7 +317,7 @@ for i, (name, locs, ax_xs) in enumerate(
     # Set axes limits and labels
     ax_xs.set_ylim(zmax, zmin)
     ax_xs.set_xlim(xmin, xmax)
-    ax_xs.set_xlabel("Longitude / $\degree$E")
+    ax_xs.set_xlabel("Longitude / $\\degree$E")
     if i == 0:
         ax_xs.set_ylabel("Depth\nb.s.l. / km")
         ax_xs.tick_params(
@@ -428,4 +429,4 @@ for i, (ordinal, ax) in enumerate(zip(["X_diff", "Y_diff", "Z_diff"], loc_diff_a
             fontsize=8,
         )
 
-plt.savefig("figure10.png", dpi=400)
+plt.savefig("figure10.png", dpi=400, bbox_inches="tight")

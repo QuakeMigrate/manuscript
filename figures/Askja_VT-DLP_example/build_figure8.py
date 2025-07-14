@@ -8,6 +8,7 @@ This script builds Figure 8 of the manuscript:
 """
 
 import pathlib
+import warnings
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,7 +29,7 @@ plt.rcParams.update({"font.family": "Helvetica"})
 events_df = pd.DataFrame()
 for f in sorted(
     pathlib.Path.cwd().glob(
-        "generate_results/outputs/runs/24h_run/locate/events/*event"
+        "generate_results/outputs/runs/paper_run/locate/events/*event"
     )
 ):
     events_df = pd.concat([events_df, pd.read_csv(f)])
@@ -169,7 +170,7 @@ fig_height = (
 )
 
 fig = plt.figure(
-    figsize=(fig_width, fig_height), constrained_layout=True, dpi=400, facecolor="w"
+    figsize=(fig_width, fig_height), dpi=400, facecolor="w"
 )
 
 # GridSpec
@@ -481,7 +482,7 @@ fig.autofmt_xdate(rotation=0, ha="center")
 
 ### Waveform & spectrogram plots
 
-qm_out = pathlib.Path("./generate_results/outputs/runs/24h_run/locate")
+qm_out = pathlib.Path("./generate_results/outputs/runs/paper_run/locate")
 archive = pathlib.Path("./generate_results/inputs/mSEED")
 
 station = "SVAD"
@@ -694,4 +695,8 @@ for i, event_id in enumerate(["20111026151311980", "20111026180130180"]):
         )
     )
 
-plt.savefig("figure8.png", dpi=400)
+# ignore warning due to nested subplots
+warnings.filterwarnings(action="ignore", category=UserWarning)
+fig.tight_layout()
+
+plt.savefig("figure8.png", dpi=400, bbox_inches="tight")

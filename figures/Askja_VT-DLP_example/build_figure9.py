@@ -8,6 +8,7 @@ This script builds Figure 9 of the manuscript:
 """
 
 import pathlib
+import warnings
 
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
@@ -27,11 +28,12 @@ from quakemigrate.signal.onsets.stalta import pre_process
 plt.style.use("../../qm_manuscript.mplstyle")
 plt.rcParams.update({"font.family": "Helvetica"})
 
+# Read in lookup-table, event files and XY files
 EVENT = "20111026180216660"
 
 lut = read_lut(lut_file="./generate_results/outputs/lut/askja.LUT")
 
-run_dir = pathlib.Path.cwd() / "generate_results/outputs/runs/24h_run"
+run_dir = pathlib.Path.cwd() / "generate_results/outputs/runs/paper_run"
 
 marginalised_coa_map = read_coalescence(
     run_dir / f"locate/marginalised_coalescence_maps/{EVENT}.npy"
@@ -78,7 +80,7 @@ fig_width = 180 / 25.4  # Seismica full-width = 180; half-width = 86 mm
 fig_height = 1.04 * fig_width * map_lon_fig_ratio / (1 + waveform_gather_width_ratio)
 
 fig = plt.figure(
-    figsize=(fig_width, fig_height), dpi=400, facecolor="w", constrained_layout=True
+    figsize=(fig_width, fig_height), dpi=400, facecolor="w"
 )
 
 # GridSpec
@@ -439,6 +441,8 @@ wg.add_artist(
 
 plt.setp(wg.spines.values(), linewidth=1.2)
 
+# ignore warning due to nested subplots
+warnings.filterwarnings(action="ignore", category=UserWarning)
 fig.tight_layout()
 
-plt.savefig("figure9.png", dpi=400)
+plt.savefig("figure9.png", dpi=400, bbox_inches="tight")

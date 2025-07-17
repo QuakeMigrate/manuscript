@@ -47,7 +47,7 @@ trig.normalise_coalescence = True
 
 # --- Static threshold ---
 trig.threshold_method = "static"
-trig.static_threshold = 2.0
+trig.static_threshold = 4.0
 
 # --- Dynamic (Median Absolute Deviation) threshold ---
 # trig.threshold_method = "dynamic"

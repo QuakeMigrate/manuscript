@@ -1,7 +1,15 @@
-mkdir profiles
+#!/bin/bash
+
+# Make output dir if it doesn't already exist
+mkdir -p profiles
+# Clean up output dir -- else memray will not run
+rm -r profiles/*
 
 # Done to ensure the scripts run from this directory
 ln -s ../../Askja_VT-DLP_example/generate_results/inputs/ inputs
+
+# Make LUT
+python profile_lut.py
 
 # Sweep over decimation factor, n_threads = 16, timestep = 300 s
 memray run -o profiles/qm-detect.decimation-factor_1.n-threads_16.timestep_300.bin profile_detect.py --decimation_factor 1

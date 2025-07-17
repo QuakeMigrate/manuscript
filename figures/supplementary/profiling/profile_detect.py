@@ -34,7 +34,7 @@ def main(args: dict | None = None) -> None:
         sys.exit(1)
 
     station_file = basepath / "inputs/askja_stations.txt"
-    data_in = basepath / "inputs/mSEED2"
+    data_in = basepath / "inputs/mSEED"
     lut_file = basepath / "outputs/lut/askja.LUT"
     run_path = "outputs/runs"
     run_name = "profiling"

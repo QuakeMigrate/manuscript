@@ -20,7 +20,7 @@ from quakemigrate.signal.local_mag import LocalMag
 # --- i/o paths ---
 station_file = "./inputs/askja_stations.txt"
 response_file = "./inputs/DATALESS/Z7*.xml"
-data_in = "./inputs/mSEED2"
+data_in = "./inputs/mSEED"
 lut_file = "./outputs/lut/askja.LUT"
 run_path = "./outputs/runs"
 run_name = "profiling"

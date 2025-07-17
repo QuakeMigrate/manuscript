@@ -14,7 +14,7 @@ import numpy as np
 from memray import FileReader
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 

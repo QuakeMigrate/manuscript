@@ -14,7 +14,7 @@ import numpy as np
 import simulate as simulate
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 # Calculate synthetic wavelets and migrate by calculated traveltimes

@@ -13,7 +13,7 @@ from matplotlib.ticker import MultipleLocator
 from quakemigrate.io import read_lut
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 lut = read_lut(lut_file="./generate_synthetic_results/outputs/lut/example.LUT")
@@ -52,8 +52,8 @@ ax.set_ylim([-0.15, 0.15])
 ax.tick_params(top=True, right=True)
 
 ax = axes[1]
-ax.plot(lut.velocity_model.Vp, lut.velocity_model.Depth, c="#F03B20", label="Vp")
-ax.plot(lut.velocity_model.Vs, lut.velocity_model.Depth, c="#3182BD", label="Vs")
+ax.plot(lut.velocity_model.Vp, lut.velocity_model.Depth, c="#F03B20", label="V$_p$")
+ax.plot(lut.velocity_model.Vs, lut.velocity_model.Depth, c="#3182BD", label="V$_s$")
 
 ax.text(
     0.04,

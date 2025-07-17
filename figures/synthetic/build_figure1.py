@@ -18,7 +18,7 @@ from quakemigrate.core import centred_sta_lta
 from quakemigrate.io import read_lut, read_coalescence
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 run_path = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
@@ -228,6 +228,10 @@ sc = ax.pcolormesh(
     vmax=0.5 * coa_data.max(),
 )
 
+ax.text(0.05, 0.9, "t = OT - \u0394t", transform=ax.transAxes,
+        fontdict={"size": 6.5,
+                  "color": "w"})
+
 ax = ax_dict["F"]
 slice_idxs = np.unravel_index(coa_data.argmax(), coa_data.shape)
 slice_ = coa_data[:, :, slice_idxs[2], slice_idxs[3]]
@@ -243,5 +247,9 @@ sc = ax.pcolormesh(
     vmin=0,
     vmax=0.5 * coa_data.max(),
 )
+
+ax.text(0.05, 0.9, "t = OT", transform=ax.transAxes,
+        fontdict={"size": 6.5,
+                  "color": "w"})
 
 plt.savefig("figure1.png", dpi=400)

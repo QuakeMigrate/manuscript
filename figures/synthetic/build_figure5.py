@@ -15,12 +15,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import obspy
 import pandas as pd
-from matplotlib.patches import Ellipse
+from matplotlib.patches import Ellipse, Rectangle
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from quakemigrate.io import read_lut, read_coalescence
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 lut = read_lut(lut_file="./generate_synthetic_results/outputs/lut/example.LUT")
@@ -81,10 +82,35 @@ for i, j, ax in [(0, 1, xy), (0, 2, xz)]:
     grid1, grid2 = np.mgrid[gminx : gmaxx : nx * 1j, gminy : gmaxy : ny * 1j]
     sc = ax.pcolormesh(grid1, grid2, slice_, edgecolors="face", cmap="viridis")
 
-# # --- Add colourbar ---
-cbax = fig.add_axes([0.68, 0.05, 0.22, 0.02])
-cb = fig.colorbar(sc, cax=cbax, orientation="horizontal")
-# cb.ax.set_xlabel("Normalised coalescence\nvalue", rotation=0, fontsize=5)
+# # # --- Add colourbar ---
+# cbax = fig.add_axes([0.68, 0.05, 0.22, 0.02])
+# cb = fig.colorbar(sc, cax=cbax, orientation="horizontal")
+# # cb.ax.set_xlabel("Normalised coalescence\nvalue", rotation=0, fontsize=5)
+
+# --- Add colourbar ---
+xz.add_patch(
+    Rectangle(
+        (0.62, 0.0),
+        0.38,
+        0.4,
+        facecolor="w",
+        edgecolor=None,
+        alpha=0.9,
+        transform=xz.transAxes,
+    )
+)
+
+cax = inset_axes(
+    xz,
+    width="30%",
+    height="7%",
+    bbox_to_anchor=(0, 0.1, 0.99, 1),
+    bbox_transform=xz.transAxes,
+    loc="lower right",
+)
+fig.colorbar(sc, cax=cax, orientation="horizontal")
+cax.set_xlabel("Normalised coalescence\nvalue", rotation=0, fontsize=5)
+cax.xaxis.set_label_position("top")
 
 xy.scatter(
     lut.station_data.Longitude.values,
@@ -152,7 +178,7 @@ xy.tick_params(
     top=True,
     bottom=True,
     labelleft=True,
-    labeltop=True,
+    labeltop=False,
     labelright=False,
     labelbottom=False,
 )

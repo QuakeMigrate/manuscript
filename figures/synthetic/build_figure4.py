@@ -11,12 +11,11 @@ import pathlib
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.dates as md
 import obspy
 import pandas as pd
 from quakemigrate.util import DateFormatter
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 input_data = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"

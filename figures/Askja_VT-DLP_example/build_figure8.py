@@ -379,6 +379,14 @@ ax_xs.scatter(
     color="darkgrey",
     edgecolors="darkgrey",
 )
+ax_xs.scatter(
+    -stations.query("Name == 'SVAD'").Elevation,
+    stations.query("Name == 'SVAD'").Latitude,
+    marker="<",
+    s=80,
+    color="limegreen",
+    edgecolors="k",
+)
 # Topography
 ax_xs.plot(topo_bedrock_ns.Z / -1000, topo_bedrock_ns.Y, c="k", lw=0.5)
 ax_xs.fill_betweenx(
@@ -436,7 +444,7 @@ ax_time.grid("k", alpha=0.1)
 # Set axes labels and limits
 ax_time.set_ylabel("M$_L$")
 ax_time.set_ylim(-0.7, 1.3)
-ax_time.set_xlabel("Time / HH:MM")
+ax_time.set_xlabel("Time on 2011-10-26 / HH:MM")
 ax_time.axhline(0, c="k", lw=1, alpha=0.5)
 ax_time.set_xlim(
     UTCDateTime("2011-299T00:00:00").datetime, UTCDateTime("2011-300T00:00:00").datetime

@@ -59,8 +59,6 @@ gmt begin plots/$NAME pdf,png
         -W0.8p -G$station_clr1 -J$proji -R$regioni
 
     echo "...plotting events..."
-    # awk -F ',' 'FNR > 1 {print ($4,$5)}' QuakeMigrate_icequakes_filtered_gc500.0_coal4.0.csv | gmt plot -Sc0.05 \
-    #     -G"#8856a7" -t30
     awk -F ',' 'FNR > 1 {print ($3,$4)}' generate_results/rutford_icequakes_gc500_coa6.csv | gmt plot -Sc0.05 -G"#8856a7" -t30
 
     echo "...adding ice flow direction arrow..."
@@ -73,8 +71,6 @@ gmt begin plots/$NAME pdf,png
         -Tdg-83.75/-78.11+w2c+l,,,N --FONT_TITLE=8p,Helvetica-Bold
 
     echo "...plotting events..."
-    # awk -F ',' 'FNR > 1 {print ($4,$6/1000)}' QuakeMigrate_icequakes_filtered_gc500.0_coal4.0.csv | gmt plot -Sc0.05 \
-    #     -G"#8856a7" -J$projc -R$regionc -Ya-2.1i -t30
     awk -F ',' 'FNR > 1 {print ($3,$5)}' generate_results/rutford_icequakes_gc500_coa6.csv | gmt plot -Sc0.05 \
         -G"#8856a7" -J$projc -R$regionc -Ya-2.1i -t30
     gmt basemap -BWSne -Bx0.1df0.05d -By1f0.1+l"Depth / km" -Ya-2.1i

@@ -32,8 +32,10 @@ def geometric_mean(row):
 catalogue["GlobalCovarianceProduct"] = catalogue.apply(product, axis=1)
 catalogue["GlobalCovarianceGeometricMean"] = catalogue.apply(geometric_mean, axis=1)
 
+catalogue.to_csv("rutford_icequakes_all.csv", index=False)
+
 # Filter
 catalogue = catalogue[catalogue["COA"] >= 5.0]
-catalogue = catalogue[catalogue["GlobalCovarianceGeometricMean"] <= 500]
+catalogue = catalogue[catalogue["GlobalCovarianceGeometricMean"] <= 0.5]
 
 catalogue.to_csv("rutford_icequakes_gc500_coa6.csv", index=False)

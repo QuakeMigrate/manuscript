@@ -17,7 +17,7 @@ import pandas as pd
 from quakemigrate.util import DateFormatter
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 # input_data = pathlib.Path.cwd().parents[1] / "data/icequake_example"

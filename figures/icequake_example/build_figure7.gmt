@@ -11,7 +11,7 @@
 # --- i/o paths ---
 DATA=$PWD/../../data/icequake_example
 ! [ -d plots ] && mkdir plots
-CATALOGUE=generate_results/rutford_icequakes_gc150_coa5.csv
+CATALOGUE=generate_results/rutford_icequakes_gc150_coa55.csv
 STATIONS=generate_results/inputs/rutford_stations.txt
 
 # --- Input information ---

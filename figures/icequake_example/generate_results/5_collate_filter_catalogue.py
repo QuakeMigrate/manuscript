@@ -15,25 +15,14 @@ import pandas as pd
 
 event_file_path = pathlib.Path.cwd() / "outputs/runs/paper_run/locate/events"
 all_event_dfs = [
-    pd.read_csv(event_file) for event_file in event_file_path.glob("*.event")
+    pd.read_csv(event_file) for event_file in sorted(event_file_path.glob("*.event"))
 ]
 
 catalogue = pd.concat(all_event_dfs)
 
-
-def product(row):
-    return row["COV_ErrX"] * row["COV_ErrY"] * row["COV_ErrZ"]
-
-
-def geometric_mean(row):
-    return row["GlobalCovarianceProduct"] ** (1 / 3)
-
-
-catalogue["GlobalCovarianceProduct"] = catalogue.apply(product, axis=1)
-catalogue["GlobalCovarianceGeometricMean"] = catalogue.apply(geometric_mean, axis=1)
-
 # Filter
-catalogue = catalogue[catalogue["COA"] >= 5.0]
-catalogue = catalogue[catalogue["GlobalCovarianceGeometricMean"] <= 500]
+filt_catalogue = catalogue.query("COV_Err_XYZ <= 0.15 and COA >= 5.5")
 
-catalogue.to_csv("rutford_icequakes_gc500_coa6.csv", index=False)
+# Save for plotting
+catalogue.to_csv("rutford_icequakes.csv", index=False)
+filt_catalogue.to_csv("rutford_icequakes_gc150_coa55.csv", index=False)

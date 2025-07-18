@@ -87,7 +87,7 @@ for ax in [ax_dict["A"], ax_dict["D"]]:
         ax.axhline(pos, xmin=-(node_count + 1), xmax=node_count, c="#e1e1e1", lw=0.5)
 
     ax.scatter(
-        0.0, 0.0, marker="*", zorder=10, s=22, c="#c51b8a", edgecolors="k", lw=0.35
+        0.0, 0.0, marker="*", zorder=10, s=50, c="#c51b8a", edgecolors="k", lw=0.35
     )
 
     station_lons, station_lats, _ = lut.index2coord(
@@ -229,7 +229,7 @@ sc = ax.pcolormesh(
 )
 
 ax.text(0.05, 0.9, "t = OT - \u0394t", transform=ax.transAxes,
-        fontdict={"size": 6.5,
+        fontdict={"size": 8,
                   "color": "w"})
 
 ax = ax_dict["F"]
@@ -249,7 +249,7 @@ sc = ax.pcolormesh(
 )
 
 ax.text(0.05, 0.9, "t = OT", transform=ax.transAxes,
-        fontdict={"size": 6.5,
+        fontdict={"size": 8,
                   "color": "w"})
 
 plt.savefig("figure1.png", dpi=400)

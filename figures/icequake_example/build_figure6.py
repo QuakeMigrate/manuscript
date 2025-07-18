@@ -41,8 +41,8 @@ events["CoaTime"] = events["CoaTime"].apply(obspy.UTCDateTime)
 events["MinTime"] = events["MinTime"].apply(obspy.UTCDateTime)
 events["MaxTime"] = events["MaxTime"].apply(obspy.UTCDateTime)
 
-starttime = obspy.UTCDateTime("2009-020T00:00:30.0")
-endtime = starttime + 270.
+starttime = obspy.UTCDateTime("2009-020T00:00:00.0")
+endtime = starttime + 300.
 
 coalescence = obspy.read(
     str(input_data / "detect/scanmseed/2009_*"),

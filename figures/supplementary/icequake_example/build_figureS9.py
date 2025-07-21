@@ -1,7 +1,7 @@
 """
 This script builds Supplementary Figure S9 of the manuscript:
 
-    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
     Using Waveform Migration and Stacking. (to be submitted to Seismica).
 

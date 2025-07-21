@@ -3,7 +3,9 @@
 This script downloads waveform data, response info & manual pick files for the Askja
 QM-manpick comparison example presented in the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 

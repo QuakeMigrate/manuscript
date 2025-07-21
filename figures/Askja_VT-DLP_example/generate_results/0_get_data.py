@@ -4,7 +4,7 @@ inventory from IRIS (in miniSEED and STATIONXML formats, respectively)
 for the 24-hour Askja volcano (Iceland) Volcanotectonic (VT) & Deep-Long-Period
 (DLP) event example presented in the manuscript:
 
-    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., nd White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
     Using Waveform Migration and Stacking. (to be submitted to Seismica).
 

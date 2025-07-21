@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-This script is to be used where the where the user has manually downloaded the relevant
+This script is to be used where the user has manually downloaded the relevant
 files from the Zenodo repository to a local directory -- it extracts waveform data,
 response info & manual pick files and places them in the correct directories to run the
 Askja QM-manpick comparison example presented in the manuscript:
 
-    QuakeMigrate **
+    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
+    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+    Using Waveform Migration and Stacking. (to be submitted to Seismica).
 
 """
 

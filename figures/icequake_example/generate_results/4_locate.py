@@ -34,7 +34,7 @@ run_name = "paper_run"
 
 # --- Set time period over which to run locate ---
 starttime = "2009-01-20T00:00:00.0"
-endtime = "2009-01-21T00:00:00.0"
+endtime = "2009-01-22T00:00:00.0"
 
 # --- Read in station file ---
 stations = read_stations(station_file)
@@ -80,7 +80,7 @@ scan.threads = 4  # NOTE: increase as your system allows to increase speed!
 scan.plot_event_summary = False
 
 # --- Toggle writing of waveforms ---
-scan.write_cut_waveforms = True
+scan.write_cut_waveforms = False
 
 # --- Run locate ---
 scan.locate(starttime=starttime, endtime=endtime)

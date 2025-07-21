@@ -13,7 +13,7 @@ import numpy as np
 from memray import FileReader
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 
@@ -23,17 +23,15 @@ def get_runtime(reader: FileReader) -> float:
     return (reader.metadata.end_time - reader.metadata.start_time).total_seconds()
 
 
-profile_reader = FileReader("profiles/askja-detect.bin")
+profile_reader = FileReader("profiles/askja-lut.bin")
 
 runtime = get_runtime(profile_reader)
 memory_usage = [
-    v / 1e9
-    for v in profile_reader.get_temporal_high_water_mark_allocation_records()[1]
+    v / 1e9 for v in profile_reader.get_temporal_high_water_mark_allocation_records()[1]
 ]
 
 timestep = runtime / (len(memory_usage) - 1)
-# * 0.1 for floating point issue
-timestamps = np.arange(0, runtime + timestep * 0.1, timestep)
+timestamps = np.arange(0, runtime + timestep, timestep)
 
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(7.08661, 3), constrained_layout=True)
 

@@ -33,7 +33,7 @@ run_name = "paper_run"
 
 # --- Set time period over which to run detect ---
 starttime = "2009-01-20T00:00:00.0"
-endtime = "2009-01-21T00:00:00.0"
+endtime = "2009-01-22T00:00:00.0"
 
 # --- Read in station file ---
 stations = read_stations(station_file)

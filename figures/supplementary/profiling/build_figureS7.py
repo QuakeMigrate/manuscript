@@ -7,13 +7,14 @@ This script builds Figure S7 of the manuscript:
 
 """
 
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from memray import FileReader
 
 
-plt.style.use("qm_manuscript")
+plt.style.use("../../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
 
@@ -23,7 +24,7 @@ def get_runtime(reader: FileReader) -> float:
     return (reader.metadata.end_time - reader.metadata.start_time).total_seconds()
 
 
-profile_reader = FileReader("profiles/askja-locate.bin")
+profile_reader = FileReader("profiles/askja-trigger.bin")
 
 runtime = get_runtime(profile_reader)
 memory_usage = [

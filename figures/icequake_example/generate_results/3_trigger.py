@@ -30,7 +30,7 @@ run_name = "paper_run"
 
 # --- Set time period over which to run trigger ---
 starttime = "2009-01-20T00:00:00.0"
-endtime = "2009-01-21T00:00:00.0"
+endtime = "2009-01-22T00:00:00.0"
 
 # --- Load the LUT ---
 lut = read_lut(lut_file=lut_file)
@@ -52,6 +52,7 @@ trig = Trigger(
 trig.marginal_window = 0.06
 trig.min_event_interval = 0.12
 trig.normalise_coalescence = True
+trig.write_event_time_windows = True
 
 # --- Smoothing ---
 # trig.smooth_coa = True

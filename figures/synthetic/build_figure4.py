@@ -7,102 +7,74 @@ This script builds Figure 4 of the manuscript:
 
 """
 
+import pathlib
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import numpy as np
 import obspy
-from quakemigrate.core import centred_sta_lta
+import pandas as pd
+from quakemigrate.util import DateFormatter
 
-
-plt.style.use("qm_manuscript")
+plt.style.use("../../qm_manuscript.mplstyle")
 mpl.rcParams["font.family"] = "Helvetica"
 
+input_data = pathlib.Path.cwd() / "generate_synthetic_results/outputs/runs/example_run"
 
-def make_colours():
-    return iter(plt.cm.viridis(np.linspace(0, 10, 11) % 10 / 10))
+# Set QM trigger parameters - MW and MEI are in seconds
+marginal_window = 0.2
+minimum_event_interval = 6.0
+threshold = 4.0
 
+events = [pd.read_csv(infile) for infile in input_data.glob("trigger/events/*.csv")]
+events = pd.concat(events)
+events["CoaTime"] = events["CoaTime"].apply(obspy.UTCDateTime)
+# events["MinTime"] = events["MinTime"].apply(obspy.UTCDateTime)
+# events["MaxTime"] = events["MaxTime"].apply(obspy.UTCDateTime)
 
-fig, axes = plt.subplots(
-    nrows=2, ncols=2, figsize=(7.08661, 6.8), constrained_layout=True
+starttime = obspy.UTCDateTime("2021-049T12:04:15.0")
+endtime = starttime + 90.0
+
+coalescence = obspy.read(
+    str(input_data / "detect/scanmseed/2021_*"), starttime=starttime, endtime=endtime
 )
 
-colours = make_colours()
-station_names = [
-    "STA7",
-    "STA8",
-    "STA5",
-    "STA3",
-    "STA6",
-    "STA0",
-    "STA9",
-    "STA1",
-    "STA2",
-    "STA4",
-]
-ticks = []
+norm_coa = coalescence.select(station="COA_N")[0]
 
-simulated_stream = obspy.read(
-    "./generate_synthetic_results/inputs/mSEED/2021/049/STA*.m"
-)
+fig, ax = plt.subplots(1, figsize=(7.08661, 3), constrained_layout=True)
 
-stw = int(round(0.1 * 50))
-ltw = int(round(1.5 * 50))
-i = 0
-for stat_id, clr in zip(station_names, colours):
-    tr = simulated_stream.select(station=stat_id, component="Z")[0]
-    onset = centred_sta_lta(tr.data**2, stw, ltw)
+dt = norm_coa.times(type="utcdatetime")
+dt = [str(datetime) for datetime in dt]
+dt = pd.to_datetime(dt).values
+ax.plot(dt, norm_coa.data / 1e5, color="k", lw=0.4, zorder=10)
 
-    axes[0][0].plot(tr.data + i, color=clr)
-    axes[0][1].plot(onset / max(onset) + i, color=clr)
+for _, event in events.iterrows():
+    min_dt = (event["CoaTime"] - marginal_window - 6).datetime
+    max_dt = (event["CoaTime"] + marginal_window + 6).datetime
+    mw_stt = (event["CoaTime"] - marginal_window).datetime
+    mw_end = (event["CoaTime"] + marginal_window).datetime
 
-    tr = simulated_stream.select(station=stat_id, component="[N,E]")[0]
-    onset = centred_sta_lta(tr.data**2, stw, ltw)
+    if max_dt < starttime.datetime or min_dt > endtime.datetime:
+        continue
 
-    axes[1][0].plot(tr.data + i, color=clr)
-    axes[1][1].plot(onset / max(onset) + i, color=clr)
-
-    ticks.append(i)
-    i += 2.5
-
-for ax in axes.flatten():
-    ax.set_xlim([30225, 30875])
-    ax.set_ylim([-2, len(simulated_stream) * 2.5 / 3])
-    ax.set_yticklabels([])
-    ax.set_yticks([])
-    ax.set_xticklabels([])
-    ax.set_xticks([])
-
-labels = [
-    "Vertical component (P-wave)",
-    "P-wave Onset",
-    "Horizontal component (S-wave)",
-    "S-wave Onset",
-]
-for ax, panel_label, label in zip(axes.flatten(), "abcd", labels):
-    ax.text(
-        0.03,
-        0.96,
-        panel_label,
-        ha="center",
-        va="center",
-        transform=ax.transAxes,
-        fontweight="bold",
+    ax.axvspan(
+        min_dt, mw_stt, label="Minimum event interval", alpha=0.2, color="#777777"
     )
-    ax.text(0.985, 0.96, label, ha="right", va="center", transform=ax.transAxes)
-
-for ax in [axes.flatten()[0], axes.flatten()[2]]:
-    ax.set_yticks(ticks)
-    ax.set_yticklabels(
-        station_names, size=7, fontname="monospace", color="w", fontweight="bold"
+    ax.axvspan(mw_end, max_dt, alpha=0.2, color="#777777")
+    ax.axvspan(mw_stt, mw_end, label="Marginal window", alpha=0.2, color="#2ca25f")
+    ax.axvline(
+        event["CoaTime"].datetime,
+        lw=0.25,
+        alpha=0.4,
+        color="#1F77B4",
     )
 
-    colours = make_colours()
-    # Colour y labels to match lines
-    gytl = ax.get_yticklabels()
-    for yt, color in zip(gytl, colours):
-        yt.set_bbox(dict(facecolor=color, edgecolor=color, pad=1))
+ax.axhline(threshold, label="Detection threshold", color="#2c7fb8", linestyle="--")
 
-axes[1][1].set_xlabel("T", c="white")
-fig.suptitle(r"Time $\longrightarrow$", x=0.525, y=0.025)
+plt.legend(fontsize=8, loc=2, frameon=False)
+
+ax.set_ylabel("Normalised coalescence")
+ax.set_xlabel("Time / HH:MM:SS")
+ax.xaxis.set_major_formatter(DateFormatter("%H:%M:%S", 2))
+ax.set_xlim([starttime.datetime, endtime.datetime])
 
 plt.savefig("figure4.png", dpi=400)

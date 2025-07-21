@@ -1,0 +1,132 @@
+#!/bin/bash
+# -----------------------------------------------------------------------------
+# This script produces Figure 7 of the manuscript:
+#
+#   Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., Drew, J., and White, R.S.
+#   QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+#   Using Waveform Migration and Stacking. (to be submitted to Seismica).
+#
+# -----------------------------------------------------------------------------
+
+# --- i/o paths ---
+DATA=$PWD/../../data/icequake_example
+! [ -d plots ] && mkdir plots
+CATALOGUE=generate_results/rutford_icequakes_gc150_coa55.csv
+STATIONS=generate_results/inputs/rutford_stations.txt
+
+# --- Input information ---
+NAME=figure7
+
+# --- GMT settings ---
+bash defaults.gmt
+gmt set PS_MEDIA 2000x2000
+gmt set FONT_TITLE 10p,Helvetica
+gmt set FONT_ANNOT 10p,Helvetica
+gmt set FONT_LABEL 10p,Helvetica
+gmt set MAP_FRAME_TYPE plain
+gmt set MAP_FRAME_PEN 1.5p
+gmt set MAP_TICK_LENGTH 0.25c
+gmt set MAP_TICK_PEN_PRIMARY 1.3p
+gmt set FORMAT_GEO_MAP ddd.xx
+
+# --- Define plot region and projection ---
+# Overview inset
+rw=-85.05; re=-82.5; rs=-78.4; rn=-77.9
+region=$rw/$re/$rs/$rn
+proj=M2.5i
+gmt mapproject -R$region -J$proj -W > tmp
+read w h < tmp
+
+# Main panel - map view
+rwi=-84.1; rei=-83.7; rsi=-78.19; rni=-78.1
+regioni=$rwi/$rei/$rsi/$rni
+proji=M6.2i
+gmt mapproject -R$regioni -J$proji -W > tmp
+read wi hi < tmp
+
+# Main panel - cross-section
+rtc=-0.5; rbc=2.5; rwc=$rwi; rec=$rei
+regionc=$rwc/$rec/$rtc/$rbc
+projc=X$wi/-1.8i
+
+# --- The colour zone ---
+gmt makecpt -T-50/255/10 -Cgray > topo.cpt
+station_clr1="#158BC4"
+
+echo "Building figure..."
+gmt begin plots/$NAME pdf,png
+
+    echo "...plotting events..."
+    awk -F ',' 'FNR > 1 {print ($3,$4)}' $CATALOGUE | gmt plot -Sc0.05 -G"#8856a7" -t30 \
+        -J$proji -R$regioni
+
+    echo "...plotting seismic stations..."
+    awk -F ',' 'FNR > 1 {print ($2,$1)}' $STATIONS | gmt plot -Sd0.3 -W0.8p \
+        -G$station_clr1
+
+    echo "...adding ice flow direction arrow..."
+    echo "-83.85 -78.165 148 2.5" | gmt plot -SV0.24c+gblack+a50d+e -W1.5p,black -N
+    echo "-83.825 -78.169 Ice flow" | gmt text -F+f10p,Helvetica-Bold,black+jCM+a302
+
+    echo "...final basemap..."
+    gmt basemap -BsWne -Ln$(echo "13.5/$wi" | bc -l)/0.05+jCM+c78.15+w2k \
+        --MAP_SCALE_HEIGHT=0.001c -Bx0.1df0.05d -By0.02df0.01d+l"Latitude" \
+        -Tdg-83.75/-78.11+w2c+l,,,N --FONT_TITLE=8p,Helvetica-Bold
+
+    echo "...plotting events..."
+    awk -F ',' 'FNR > 1 {print ($3,$5)}' $CATALOGUE | gmt plot -Sc0.05 \
+        -G"#8856a7" -J$projc -R$regionc -Ya-2.1i -t30
+    gmt basemap -BWSne -Bx0.1df0.05d -By1f0.25+l"Depth / km" -Ya-2.1i
+    awk '{print $1,-$2/1000}' $DATA/bed_topography.txt | gmt plot -W1p,"#565656" -Ya-2.1i
+    awk '{print $1,-$2/1000}' $DATA/surface_topography.txt | gmt plot -W1p,"#79CBDF" -Ya-2.1i
+
+    echo "...plotting seismic stations..."
+    awk -F ',' 'FNR > 1 {print ($2,-$3)}' $STATIONS | gmt plot -Sd0.25 \
+        -W0.8p -G$station_clr1 -Ya-2.1i
+
+    gmt basemap -Bswne -Ya-2.1i
+
+    echo "...working on inset..."
+    echo "...plotting DEM..."
+    gmt grdimage -J$proj -R$region sentinel_Rutford_RGB_image_blue.grd \
+        -Y$(echo "$hi - $h" | bc -l)c -t7 -I0.2 -Ctopo.cpt
+    gmt grdimage sentinel_Rutford_RGB_image_green.grd -t72 -I0.2 -Ctopo.cpt
+    gmt grdimage sentinel_Rutford_RGB_image_red.grd -t21 -I0.2 -Ctopo.cpt
+
+    echo "...plotting seismic stations..."
+    awk -F ',' 'FNR > 1 {print ($2,$1)}' $STATIONS | gmt plot -Sd0.07 \
+        -J$proj -R$region -W0.3p -G$station_clr1 
+
+    echo "...adding labels..."
+    echo "-84.15 -78.026 Rutford" | gmt text -F+f7p,Helvetica-Bold,black+jCM
+    echo "-84.15 -78.044 Ice Stream" | gmt text -F+f7p,Helvetica-Bold,black+jCM
+
+    echo "-83 -78.095 Fletcher" | gmt text -F+f7p,Helvetica-Bold,black+jCM
+    echo "-83 -78.113 Promontory" | gmt text -F+f7p,Helvetica-Bold,black+jCM
+
+    echo "-84.7 -78.24 Ellsworth" | gmt text -F+f7p,Helvetica-Bold,black+jCM
+    echo "-84.7 -78.258 Mountains" | gmt text -F+f7p,Helvetica-Bold,black+jCM
+
+    echo "-83.76 -78.24 Ice flow" | gmt text -F+f6p,Helvetica-Bold,black+jCM+a302
+
+    echo "...adding ice flow direction arrow..."
+    echo "-83.75 -78.21 148 0.5" | gmt plot -SV0.12c+gblack+a50d+e -W0.6p,black -N
+
+    cat <<- EOF | gmt plot -W0.7p,"#dd1c77"
+    $rei $rsi
+    $rei $rni
+    $rwi $rni
+    $rwi $rsi
+    $rei $rsi
+EOF
+
+    echo "...final basemap..."
+    gmt basemap -Bswne -Ln$(echo "5.5/$w" | bc -l)/0.1+jCM+c78.15+w10k \
+        --MAP_SCALE_HEIGHT=0.001c -Tdg-82.85/-77.99+w0.8c+l,,,N --FONT_TITLE=6p,Helvetica-Bold
+
+gmt end  # show
+
+echo "...removing temporary files..."
+rm tmp gmt.* *.cpt
+
+echo "Complete."

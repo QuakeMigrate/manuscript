@@ -157,10 +157,9 @@ for ax, ttimes, o_time in zip(
 ):
     ticks = []
     i = 0
-    for stat_id in station_names:
+    for stat_id in ttimes.sort_values(by=1)[0][::-1]:
         stw = int(round(0.1 * 50))
         ltw = int(round(1.5 * 50))
-
         tr = simulated_stream.select(station=stat_id, component="Z")[0]
         onset = centred_sta_lta(tr.data**2, stw, ltw)
 
@@ -228,9 +227,13 @@ sc = ax.pcolormesh(
     vmax=0.5 * coa_data.max(),
 )
 
-ax.text(0.05, 0.9, "t = OT - \u0394t", transform=ax.transAxes,
-        fontdict={"size": 8,
-                  "color": "w"})
+ax.text(
+    0.05,
+    0.9,
+    "t = OT - \u0394t",
+    transform=ax.transAxes,
+    fontdict={"size": 8, "color": "w"},
+)
 
 ax = ax_dict["F"]
 slice_idxs = np.unravel_index(coa_data.argmax(), coa_data.shape)
@@ -248,8 +251,6 @@ sc = ax.pcolormesh(
     vmax=0.5 * coa_data.max(),
 )
 
-ax.text(0.05, 0.9, "t = OT", transform=ax.transAxes,
-        fontdict={"size": 8,
-                  "color": "w"})
+ax.text(0.05, 0.9, "t = OT", transform=ax.transAxes, fontdict={"size": 8, "color": "w"})
 
 plt.savefig("figure1.png", dpi=400)

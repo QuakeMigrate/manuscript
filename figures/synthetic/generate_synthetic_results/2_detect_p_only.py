@@ -34,7 +34,7 @@ archive = Archive(
 
 # --- Load the LUT ---
 lut = read_lut(lut_file=lut_out)
-lut.decimate([2, 2, 2], inplace=True)
+lut.decimate([4, 4, 4], inplace=True)
 
 # --- Create new Onset ---
 onset = STALTAOnset(position="classic", sampling_rate=100)
@@ -59,4 +59,3 @@ scan.threads = 4  # NOTE: increase as your system allows to increase speed!
 
 # --- Run detect ---
 scan.detect(starttime, endtime)
-

@@ -2,7 +2,7 @@
 Small module that provides basic waveform simulations routines.
 
 :copyright:
-    2020–2024, QuakeMigrate developers.
+    2020–2025, QuakeMigrate developers.
 :license:
     GNU General Public License, Version 3
     (https://www.gnu.org/licenses/gpl-3.0.html)
@@ -10,13 +10,19 @@ Small module that provides basic waveform simulations routines.
 """
 
 from __future__ import annotations
+
+import os
+import pathlib
 from dataclasses import dataclass
+from shutil import rmtree
 
 import numpy as np
 import pandas as pd
+from nllgrid import NLLGrid
 from obspy import Trace, Stream, UTCDateTime
 from obspy.geodetics.base import gps2dist_azimuth
 from quakemigrate.lut import LUT
+from quakemigrate.lut.create_lut import _grid_string, _vmodel_string
 
 
 @dataclass
@@ -33,12 +39,15 @@ class Wavelet:
 
         Parameters
         ----------
-        source_polarisation: Source polarisation in degrees.
+        source_polarisation:
+            Source polarisation in degrees.
 
         Returns
         -------
-        wavelet_x: Projected x-component of wavelet function.
-        wavelet_y: Projected y-component of wavelet function.
+        wavelet_x:
+            Projected x-component of wavelet function.
+        wavelet_y:
+            Projected y-component of wavelet function.
 
         """
 
@@ -74,7 +83,6 @@ def simulate_waveforms(
     lut: LUT,
     magnitude: int = 1,
     noise: dict | None = None,
-    angle_of_incidence: int = 0,
 ) -> Stream:
     """
     Simulates the waveforms expected for an earthquake within a given LUT.
@@ -84,16 +92,21 @@ def simulate_waveforms(
 
     Parameters
     ----------
-    wavelet: The base wavelet used to represent the waveform for each simulated phase.                                                                 
-    earthquake_coords: The lon, lat, and depth of the earthquake.
-    lut: A QuakeMigrate traveltime lookup table, used to migrate simulated waveforms.
-    magnitude: A local magnitude used to simulate the effect of distance attenuation.
-    noise: Gaussian noise scaling for simulated waveform traveltimes and amplitudes.
-    angle_of_incidence: Used to rotate from LQT onto ZNE axes.
+    wavelet:
+        The base wavelet used to represent the waveform for each simulated phase.
+    earthquake_coords:
+        Longitude, latitude, and depth of the earthquake.
+    lut:
+        A QuakeMigrate traveltime lookup table, used to migrate simulated waveforms.
+    magnitude:
+        A local magnitude used to simulate the effect of distance attenuation.
+    noise:
+        Gaussian noise scaling for simulated waveform traveltimes and amplitudes.
 
     Returns
     -------
-    stream: An ObsPy Stream object containing the simulated waveform traces.
+    stream:
+        An ObsPy Stream object containing the simulated waveform traces.
 
     """
 
@@ -103,8 +116,9 @@ def simulate_waveforms(
             "amplitude": {"P": 0.1, "S": 0.1},
         }
 
-    inclination = 90 - angle_of_incidence
     earthquake_ijk = lut.index2coord(earthquake_coords, inverse=True)
+
+    inclinations = _compute_inclinations(lut.coord2grid(earthquake_coords)[0], lut)
 
     stream = Stream()
     # Loop over each station and construct the P and S synthetics
@@ -113,7 +127,6 @@ def simulate_waveforms(
         hypo_dist, az, baz = _gps2hypodist_az_baz(
             station_data, earthquake_coords, lut.unit_conversion_factor
         )
-        # amp_factor = 1.
         amp_factor = 10 ** (magnitude - _attenuate(hypo_dist))
 
         # Build L component, e.g. the P-phase synthetic
@@ -147,7 +160,7 @@ def simulate_waveforms(
             lqt_stream += trace
 
         zne_stream = lqt_stream.rotate(
-            "LQT->ZNE", back_azimuth=baz, inclination=inclination
+            "LQT->ZNE", back_azimuth=baz, inclination=inclinations[i]
         )
 
         stream += zne_stream
@@ -166,15 +179,21 @@ def _gps2hypodist_az_baz(
 
     Parameters
     ----------
-    station_data: DataFrame containing the receiver latitude, longitude, and elevation.
-    earthquake_coords: Longitude, latitude, and depth of the earthquake.
-    unit_conversion_factor: Factor to convert distances to km.
+    station_data:
+        DataFrame containing the receiver latitude, longitude, and elevation.
+    earthquake_coords:
+        Longitude, latitude, and depth of the earthquake.
+    unit_conversion_factor:
+        Factor to convert distances to km.
 
     Returns
     -------
-    hypo_dist: Distance from the hypocentre to the source.
-    az: Azimuth from the source to the receiver.
-    baz: Back-azimuth from the receiver to the source.
+    hypo_dist:
+        Distance from the hypocentre to the source.
+    az:
+        Azimuth from the source to the receiver.
+    baz:
+        Back-azimuth from the receiver to the source.
 
     """
 
@@ -204,12 +223,142 @@ def _attenuate(distance: float) -> float:
 
     Parameters
     ----------
-    distance: Distance between source and receiver.
+    distance:
+        Distance between source and receiver.
 
     Returns
     -------
-    attenuation_factor: Scaling factor as a function of distance.
+    attenuation_factor:
+        Scaling factor as a function of distance.
 
     """
 
     return 1.11 * np.log10(distance / 100.0) + 0.00189 * (distance - 100.0) + 3.0
+
+
+def _compute_inclinations(earthquake_xyz: np.ndarray, lut: LUT) -> list[float]:
+    """
+    Run NonLinLoc with an earthquake as a source and compute dip angles at the
+    range and depth moveouts for each station.
+
+    Inclination is defined as the angle made by the ray vector with respect to vertical.
+
+    Parameters
+    ----------
+    earthquake_xyz:
+        Location of the earthquake in km.
+    lut:
+        A QuakeMigrate traveltime lookup table, used to migrate simulated waveforms.
+
+    Returns
+    -------
+    inclinations:
+        List of inclinations.
+
+    """
+
+    from subprocess import check_output, STDOUT
+
+    km_cf = 1000 / lut.unit_conversion_factor
+    grid_xyz = [g / km_cf for g in lut.grid_xyz]
+    stations_xyz = lut.stations_xyz / km_cf
+
+    # Make folders in which to run NonLinLoc
+    cwd = pathlib.Path.cwd()
+    (cwd / "time").mkdir(exist_ok=True)
+    (cwd / "model").mkdir(exist_ok=True)
+
+    max_dist = 0
+    for station_xyz in stations_xyz:
+        dx, dy = [grid_xyz[j] - station_xyz[j] for j in range(2)]
+        distances = np.sqrt(dx**2 + dy**2)
+        max_dist = max(np.max(distances), max_dist)
+
+    ll, *_, ur = lut.grid_corners / km_cf
+    depth_range = [
+        min(ll[2], stations_xyz[:, 2].min()),
+        max(ur[2], stations_xyz[:, 2].max()),
+    ]
+
+    vmodel = lut.velocity_model / km_cf
+    _write_control_file(earthquake_xyz, max_dist, vmodel, depth_range)
+
+    nlloc_path = pathlib.Path("")
+    for mode in ["Vel2Grid", "Grid2Time"]:
+        out = check_output([str(nlloc_path / mode), "eq-control.in"], stderr=STDOUT)
+        if b"ERROR" in out:
+            raise Exception(f"{mode} Error", out)
+
+    grid = NLLGrid(f"time/layer.P.EQ.angle.buf")
+
+    inclinations = []
+    for sx, sy, sz in stations_xyz:
+        dx, dy = sx - earthquake_xyz[0], sy - earthquake_xyz[1]
+        r_offset = np.sqrt(dx**2 + dy**2)
+        ix = int(r_offset // grid.dx) + 1
+        iz = int((sz - grid.z_orig) // grid.dz) + 1
+
+        inclinations.append(grid.dip[0, ix, iz])
+
+    # Tidy up: remove control file and nll model and time files
+    os.remove(cwd / "eq-control.in")
+    for file in (cwd / "time").glob("layer.P.EQ.time*"):
+        file.unlink()
+    for file in (cwd / "time").glob("layer.P.mod.*"):
+        file.unlink()
+    rmtree(cwd / "model")
+
+    return inclinations
+
+
+def _write_control_file(
+    earthquake_xyz: np.ndarray,
+    max_dist: float,
+    vmodel: pd.DataFrame,
+    depth_span: list,
+) -> None:
+    """
+    Write out a control file for NonLinLoc.
+
+    Parameters
+    ----------
+    earthquake_xyz:
+        Earthquake location expressed in the coordinate space of the grid, in km.
+    max_dist:
+        Maximum distance between the station and any point in the grid, in km.
+    vmodel:
+        DataFrame containing the velocity model to be used to generate the LUT.
+        Columns:
+            "Depth" of each layer in model (positive down), in km.
+            "V<phase>" velocity for each layer in model (e.g. "Vp"), in km / s.
+    depth_span:
+        Minimum/maximum extent of the grid in the z-dimension, in km.
+
+    """
+
+    control_string = (
+        "CONTROL 0 54321\n"
+        "TRANS NONE\n\n"
+        "VGOUT {model_path:s}\n"
+        "VGTYPE P\n\n"
+        "VGGRID {grid:s} SLOW_LEN\n\n"
+        "{vmodel:s}\n\n"
+        "GTFILES {model_path:s} {time_path:s} P\n"
+        "GTMODE GRID2D ANGLES_YES\n\n"
+        "GTSRCE EQ XYZ {x:f} {y:f} {z:f} 0.0\n\n"
+        "GT_PLFD 1.0E-3 0"
+    )
+
+    cwd = pathlib.Path.cwd()
+    out = control_string.format(
+        grid=_grid_string(max_dist, depth_span, 0.1),
+        vmodel=_vmodel_string(vmodel, False, "P"),
+        model_path=str(cwd / "model" / "layer"),
+        time_path=str(cwd / "time" / "layer"),
+        x=earthquake_xyz[0],
+        y=earthquake_xyz[1],
+        z=earthquake_xyz[2],
+    )
+
+    with open(cwd / "eq-control.in", "w") as f:
+        f.write(out)

@@ -30,6 +30,7 @@ stations["Longitude"] = rng.uniform(low=-0.15, high=0.15, size=10)
 stations["Latitude"] = rng.uniform(low=-0.15, high=0.15, size=10)
 stations["Elevation"] = rng.uniform(low=-0.0, high=1.0, size=10)
 stations.to_csv(station_file, index=False)
+stations["Elevation"] *= -1
 
 # --- Read in the velocity model file ---
 vmodel = read_vmodel(vmodel_file)

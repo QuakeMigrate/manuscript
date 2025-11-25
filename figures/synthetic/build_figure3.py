@@ -30,14 +30,14 @@ colours = make_colours()
 station_names = [
     "STA7",
     "STA8",
-    "STA5",
-    "STA3",
-    "STA6",
-    "STA0",
-    "STA9",
-    "STA1",
     "STA2",
     "STA4",
+    "STA5",
+    "STA1",
+    "STA9",
+    "STA0",
+    "STA3",
+    "STA6",
 ]
 ticks = []
 
@@ -55,10 +55,11 @@ for stat_id, clr in zip(station_names, colours):
     axes[0][0].plot(tr.data + i, color=clr)
     axes[0][1].plot(onset / max(onset) + i, color=clr)
 
-    tr = simulated_stream.select(station=stat_id, component="[N,E]")[0]
-    onset = centred_sta_lta(tr.data**2, stw, ltw)
+    trs = simulated_stream.select(station=stat_id, component="[N,E]")
+    onsets = [centred_sta_lta(tr.data**2, stw, ltw) for tr in trs]
+    onset = np.sqrt(np.sum([onset**2 for onset in onsets], axis=0) / len(onsets))
 
-    axes[1][0].plot(tr.data + i, color=clr)
+    axes[1][0].plot(trs[1].data + i, color=clr)
     axes[1][1].plot(onset / max(onset) + i, color=clr)
 
     ticks.append(i)

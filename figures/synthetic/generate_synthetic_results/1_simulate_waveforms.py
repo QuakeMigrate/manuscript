@@ -28,11 +28,10 @@ frequency, sps, half_timespan = 4.0, 100, 300.0
 wavelet = GaussianDerivativeWavelet(frequency, sps, half_timespan)
 
 earthquake_coords = [0.0, 0.0, 15.0]
-aoi = 80
 magnitude = 2.2
 
 simulated_stream = simulate_waveforms(
-    wavelet, earthquake_coords, lut, magnitude=magnitude, angle_of_incidence=aoi
+    wavelet, earthquake_coords, lut, magnitude=magnitude
 )
 
 for tr in simulated_stream:

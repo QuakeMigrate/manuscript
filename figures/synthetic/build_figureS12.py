@@ -1,5 +1,5 @@
 """
-This script builds Figure S10 of the manuscript:
+This script builds Figure S12 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -71,4 +71,4 @@ for sx, sy, sz in lut.stations_xyz:
 ax.set_ylim([30.0, -2.0])
 ax.set_xlim([0.0, 25.0])
 
-plt.savefig("figureS10.png", dpi=400)
+plt.savefig("figureS12.png", dpi=400)

@@ -2,7 +2,7 @@
 Small module that provides basic waveform simulations routines.
 
 :copyright:
-    2020–2024, QuakeMigrate developers.
+    2020–2025, QuakeMigrate developers.
 :license:
     GNU General Public License, Version 3
     (https://www.gnu.org/licenses/gpl-3.0.html)
@@ -10,6 +10,7 @@ Small module that provides basic waveform simulations routines.
 """
 
 from __future__ import annotations
+
 from dataclasses import dataclass
 
 import numpy as np
@@ -33,12 +34,15 @@ class Wavelet:
 
         Parameters
         ----------
-        source_polarisation: Source polarisation in degrees.
+        source_polarisation:
+            Source polarisation in degrees.
 
         Returns
         -------
-        wavelet_x: Projected x-component of wavelet function.
-        wavelet_y: Projected y-component of wavelet function.
+        wavelet_x:
+            Projected x-component of wavelet function.
+        wavelet_y:
+            Projected y-component of wavelet function.
 
         """
 
@@ -84,16 +88,23 @@ def simulate_waveforms(
 
     Parameters
     ----------
-    wavelet: The base wavelet used to represent the waveform for each simulated phase.                                                                 
-    earthquake_coords: The lon, lat, and depth of the earthquake.
-    lut: A QuakeMigrate traveltime lookup table, used to migrate simulated waveforms.
-    magnitude: A local magnitude used to simulate the effect of distance attenuation.
-    noise: Gaussian noise scaling for simulated waveform traveltimes and amplitudes.
-    angle_of_incidence: Used to rotate from LQT onto ZNE axes.
+    wavelet:
+        The base wavelet used to represent the waveform for each simulated phase.
+    earthquake_coords:
+        Longitude, latitude, and depth of the earthquake.
+    lut:
+        A QuakeMigrate traveltime lookup table, used to migrate simulated waveforms.
+    magnitude:
+        A local magnitude used to simulate the effect of distance attenuation.
+    noise:
+        Gaussian noise scaling for simulated waveform traveltimes and amplitudes.
+    angle_of_incidence:
+        Used to rotate from LQT onto ZNE axes.
 
     Returns
     -------
-    stream: An ObsPy Stream object containing the simulated waveform traces.
+    stream:
+        An ObsPy Stream object containing the simulated waveform traces.
 
     """
 
@@ -113,7 +124,6 @@ def simulate_waveforms(
         hypo_dist, az, baz = _gps2hypodist_az_baz(
             station_data, earthquake_coords, lut.unit_conversion_factor
         )
-        # amp_factor = 1.
         amp_factor = 10 ** (magnitude - _attenuate(hypo_dist))
 
         # Build L component, e.g. the P-phase synthetic
@@ -166,15 +176,21 @@ def _gps2hypodist_az_baz(
 
     Parameters
     ----------
-    station_data: DataFrame containing the receiver latitude, longitude, and elevation.
-    earthquake_coords: Longitude, latitude, and depth of the earthquake.
-    unit_conversion_factor: Factor to convert distances to km.
+    station_data:
+        DataFrame containing the receiver latitude, longitude, and elevation.
+    earthquake_coords:
+        Longitude, latitude, and depth of the earthquake.
+    unit_conversion_factor:
+        Factor to convert distances to km.
 
     Returns
     -------
-    hypo_dist: Distance from the hypocentre to the source.
-    az: Azimuth from the source to the receiver.
-    baz: Back-azimuth from the receiver to the source.
+    hypo_dist:
+        Distance from the hypocentre to the source.
+    az:
+        Azimuth from the source to the receiver.
+    baz:
+        Back-azimuth from the receiver to the source.
 
     """
 
@@ -204,11 +220,13 @@ def _attenuate(distance: float) -> float:
 
     Parameters
     ----------
-    distance: Distance between source and receiver.
+    distance:
+        Distance between source and receiver.
 
     Returns
     -------
-    attenuation_factor: Scaling factor as a function of distance.
+    attenuation_factor:
+        Scaling factor as a function of distance.
 
     """
 

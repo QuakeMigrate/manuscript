@@ -17,7 +17,7 @@ from obspy.geodetics import gps2dist_azimuth
 lat_ref, lon_ref, z_ref = (-0.000327, -0.001778, 14.95)
 
 # P-only location
-lat_p_only, lon_p_only, z_p_only = (-0.000779, -0.001778, 14.9)
+lat_p_only, lon_p_only, z_p_only = (-0.000779, -0.001778, 14.75)
 
 dist, ab_az, ba_az = gps2dist_azimuth(lat_ref, lon_ref, lat_p_only, lon_p_only)
 z_dist = z_p_only - z_ref

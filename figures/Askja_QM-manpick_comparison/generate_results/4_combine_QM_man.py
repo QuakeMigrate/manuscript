@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This script combines the QuakeMigrate and NLLOC outputs for the catalogue of
 manually picked earthquakes from the region around Askja volcano (Iceland)

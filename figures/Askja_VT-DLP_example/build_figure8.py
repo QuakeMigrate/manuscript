@@ -169,9 +169,7 @@ fig_height = (
     map_lat_fig_ratio * fig_width * (1 + time_ax_height + spec_ax_height + 0.15)
 )
 
-fig = plt.figure(
-    figsize=(fig_width, fig_height), dpi=400, facecolor="w"
-)
+fig = plt.figure(figsize=(fig_width, fig_height), dpi=400, facecolor="w")
 
 # GridSpec
 gs = GridSpec(

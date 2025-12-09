@@ -1,5 +1,8 @@
 """
-This script builds Figure S2 of the manuscript:
+This script computes the difference in location estimates for the synthetic example
+and the Askja VT-DLP example when using both P- and S-phase onset functions and just P.
+A comparison of the event summary plots is presented in Supplementary Figures 4 and 5 of
+the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -44,4 +47,3 @@ y_dist = dist * np.cos(ab_az * np.pi / 180)
 
 print(f"\nAskja event location difference: {dist} m horizontal;  {z_dist} m vertical")
 print(f"{x_dist} m in X; {y_dist} m in Y\n")
-

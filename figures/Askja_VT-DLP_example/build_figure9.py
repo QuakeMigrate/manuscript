@@ -79,9 +79,7 @@ waveform_gather_width_ratio = 1.5
 fig_width = 180 / 25.4  # Seismica full-width = 180; half-width = 86 mm
 fig_height = 1.04 * fig_width * map_lon_fig_ratio / (1 + waveform_gather_width_ratio)
 
-fig = plt.figure(
-    figsize=(fig_width, fig_height), dpi=400, facecolor="w"
-)
+fig = plt.figure(figsize=(fig_width, fig_height), dpi=400, facecolor="w")
 
 # GridSpec
 gs = GridSpec(

@@ -26,15 +26,14 @@ input_data = pathlib.Path.cwd() / "generate_results/outputs/runs/paper_run"
 # Set QM trigger parameters - MW and MEI are in seconds
 marginal_window = 0.1
 minimum_event_interval = 0.25
-threshold = 3.
+threshold = 3.0
 
 # events = pd.read_csv(
 #     input_data / "triggered_events/Paper_settings_500Hz_TriggeredEvents.csv"
 # )
 events = [
     pd.read_csv(infile)
-    for infile
-    in input_data.glob("trigger/events/paper_run_*_TriggeredEvents*")
+    for infile in input_data.glob("trigger/events/paper_run_*_TriggeredEvents*")
 ]
 events = pd.concat(events)
 events["CoaTime"] = events["CoaTime"].apply(obspy.UTCDateTime)
@@ -42,12 +41,10 @@ events["MinTime"] = events["MinTime"].apply(obspy.UTCDateTime)
 events["MaxTime"] = events["MaxTime"].apply(obspy.UTCDateTime)
 
 starttime = obspy.UTCDateTime("2009-020T00:00:00.0")
-endtime = starttime + 300.
+endtime = starttime + 300.0
 
 coalescence = obspy.read(
-    str(input_data / "detect/scanmseed/2009_*"),
-    starttime=starttime,
-    endtime=endtime
+    str(input_data / "detect/scanmseed/2009_*"), starttime=starttime, endtime=endtime
 )
 
 norm_coa = coalescence.select(station="COA_N")[0]
@@ -74,31 +71,21 @@ for _, event in events.iterrows():
         label="Minimum event interval",
         alpha=0.2,
         color="#777777",
-        lw=0.001
+        lw=0.001,
     )
     ax.axvspan(mw_end, max_dt, alpha=0.2, color="#777777", lw=0.001)
     ax.axvspan(
-        mw_stt,
-        mw_end,
-        label="Marginal window",
-        alpha=0.2,
-        color="#2ca25f",
-        lw=0.001
+        mw_stt, mw_end, label="Marginal window", alpha=0.2, color="#2ca25f", lw=0.001
     )
     ax.axvline(
         event["CoaTime"].datetime,
         label="Triggered event",
         lw=0.25,
         alpha=0.4,
-        color="#1F77B4"
+        color="#1F77B4",
     )
 
-ax.axhline(
-    threshold,
-    label="Detection threshold",
-    color="#2c7fb8",
-    linestyle="--"
-)
+ax.axhline(threshold, label="Detection threshold", color="#2c7fb8", linestyle="--")
 
 ax.set_ylabel("Normalised coalescence")
 ax.set_xlabel("Time")

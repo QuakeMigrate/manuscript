@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This script runs locate from a mock trigger file containing a list of
 manually picked earthquakes from the region around Askja volcano (Iceland)

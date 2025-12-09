@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This script downloads waveform data, response info & manual pick files for the Askja
 QM-manpick comparison example presented in the manuscript:
@@ -27,12 +26,13 @@ import pathlib
 # 'export ACCESS_TOKEN=12345'. If this is not possible, you can also manually set it
 # below -- but do not accidentally upload to GitHub!
 ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
-params = {'access_token': ACCESS_TOKEN}
+params = {"access_token": ACCESS_TOKEN}
 
-INPUTS_DIR = pathlib.Path("./figures/Askja_QM-manpick_comparison/generate_results/inputs")
+INPUTS_DIR = pathlib.Path(
+    "./figures/Askja_QM-manpick_comparison/generate_results/inputs"
+)
 
-r = requests.get('https://zenodo.org/api/records/15236744/files',
-                 params=params)
+r = requests.get("https://zenodo.org/api/records/15236744/files", params=params)
 
 for repo_file in r.json():
     # download dataless directly -- does not need unzipping

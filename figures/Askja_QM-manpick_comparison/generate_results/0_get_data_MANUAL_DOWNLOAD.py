@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This script is to be used where the user has manually downloaded the relevant
 files from the Zenodo repository to a local directory -- it extracts waveform data,
@@ -22,7 +21,9 @@ import pathlib
 # NOTE: set the "DOWNLOAD_DIR" variable to the location where the zip files and dataless
 # inventory were saved. E.g. "/home/user/Downloads"
 DOWNLOAD_DIR = pathlib.Path("/PATH/TO/DOWNLOAD_DIR")
-INPUTS_DIR = pathlib.Path("./figures/Askja_QM-manpick_comparison/generate_results/inputs")
+INPUTS_DIR = pathlib.Path(
+    "./figures/Askja_QM-manpick_comparison/generate_results/inputs"
+)
 
 
 # Move dataless file to correct location

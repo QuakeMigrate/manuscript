@@ -27,8 +27,7 @@ profile_reader = FileReader("profiles/askja-detect.bin")
 
 runtime = get_runtime(profile_reader)
 memory_usage = [
-    v / 1e9
-    for v in profile_reader.get_temporal_high_water_mark_allocation_records()[1]
+    v / 1e9 for v in profile_reader.get_temporal_high_water_mark_allocation_records()[1]
 ]
 
 timestep = runtime / (len(memory_usage) - 1)

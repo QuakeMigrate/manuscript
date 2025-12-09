@@ -1,5 +1,5 @@
 """
-This script builds Supplementary Figure S10 of the manuscript:
+This script builds Supplementary Figure S12 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -69,4 +69,4 @@ for ax, letter in zip(axs, ["a", "b"]):
     )
 
 fig.tight_layout()
-fig.savefig("./figureS10.png", dpi=400, bbox_inches="tight")
+fig.savefig("./figureS12.png", dpi=400, bbox_inches="tight")

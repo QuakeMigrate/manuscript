@@ -133,7 +133,7 @@ def simulate_waveforms(
         P = Trace()
         P_ttime = lut.traveltime_to("P", earthquake_ijk, station=station)
         P_ttime += np.random.normal(scale=noise["traveltime"]["P"], size=1)
-        roll_by = int(wavelet.sps * P_ttime)
+        roll_by = int(wavelet.sps * P_ttime[0])
         P_amp_noise = np.random.normal(
             scale=noise["amplitude"]["P"], size=len(wavelet.data)
         )
@@ -143,7 +143,7 @@ def simulate_waveforms(
         S1, S2 = Trace(), Trace()
         S_ttime = lut.traveltime_to("S", earthquake_ijk, station=station)
         S_ttime += np.random.normal(scale=noise["traveltime"]["S"], size=1)
-        roll_by = int(wavelet.sps * S_ttime)
+        roll_by = int(wavelet.sps * S_ttime[0])
         S_amp_noise = np.random.normal(
             scale=noise["amplitude"]["S"], size=len(wavelet.data)
         )

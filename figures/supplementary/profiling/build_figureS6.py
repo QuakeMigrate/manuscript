@@ -71,7 +71,7 @@ ax.scatter(decimation_factors, runtimes, marker="s", c="#50aba3", s=10)
 ax.set_xticks(decimation_factors)
 ax.set_xticklabels([])
 ax.set_ylabel("Runtime, s")
-ax.set_ylim([0, 300])
+ax.set_ylim([0, 320])
 
 # Decimation factor, memory usage
 ax = axes[1][0]
@@ -102,7 +102,7 @@ ax.scatter(timesteps, runtimes, marker="s", c="#50aba3", s=10)
 ax.set_xticks(timesteps)
 ax.set_xticklabels([])
 ax.set_yticklabels([])
-ax.set_ylim([0, 300])
+ax.set_ylim([0, 320])
 
 # Decimation factor, memory usage
 ax = axes[1][1]
@@ -133,7 +133,7 @@ ax.scatter(n_threads, runtimes, marker="s", c="#50aba3", s=10)
 ax.set_xticks(n_threads)
 ax.set_xticklabels([])
 ax.set_yticklabels([])
-ax.set_ylim([0, 300])
+ax.set_ylim([0, 320])
 
 # Decimation factor, memory usage
 ax = axes[1][2]

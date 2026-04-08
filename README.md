@@ -7,9 +7,9 @@ This repository is home to analysis and visualisation code to support the manusc
 
 Open-access paper: [![DOI](https://img.shields.io/badge/)](https://doi.org/)
 
-Supplementary datafiles: [![DOI](https://zenodo.org/badge/DOI/zenodo.15236744)](https://doi.org/10.5281/zenodo.15236744)
+Supplementary datafiles: [![DOI](https://zenodo.org/badge/DOI/zenodo.15236744.svg)](https://doi.org/10.5281/zenodo.15236744)
 
-Analysis and visualisation: [![DOI](https://zenodo.org/badge/DOI/)](https://doi.org/)
+Analysis and visualisation: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16419322.svg)](https://doi.org/10.5281/zenodo.16419322)
 
 ## Steps to reproduce analysis and figures
 1. Clone this repository and navigate to it:
@@ -45,10 +45,10 @@ conda install gmt
 
 ## Detailed instructions for individual figures
 
-### Figure 1; Figures 3-5; Supplementary Figures S1–2, S4
-Code for these figures is found within the `synthetic` sub-directory. Users should first run through all scripts in `synthetic/generate_synthetic_results` in order, before running the scripts to build the individual figures. Note that the secondary `<script>_p_only.py` scripts run the example with only the P onset functions, in order to generate the event summary plot presented in Supplementary Figure S4. The two event summary figures were combined in Affinity Designer.
+### Figure 1; Figures 3-5; Supplementary Figures S2–3, S5
+Code for these figures is found within the `synthetic` sub-directory. Users should first run through all scripts in `synthetic/generate_synthetic_results` in order, before running the scripts to build the individual figures. Note that the secondary `<script>_p_only.py` scripts run the example with only the P onset functions, in order to generate the event summary plot presented in Supplementary Figure S5. The two event summary figures were combined in Affinity Designer.
 
-### Figures 6-7; Supplementary Figure S12
+### Figures 6-7; Supplementary Figure S13
 Code for these figures is found within the `icequake_example` sub-directory. Code to generate the input results for these figures is provided within `icequake_example/generate_results`, however this example is computationally expensive to run, so the relevant output files for constructing the figures are also provided within the repository. If the user chooses to re-generate the outputs themselves, they should run through the scripts within `generate_results` in order. They may also adjust the time windows in order to run a subset.
 
 Note that Figure 7 requires GMT to be installed.
@@ -56,21 +56,21 @@ Note that Figure 7 requires GMT to be installed.
 ### Figures 8-9
 Code for these figures is found within the `Askja_VT-DLP_example` sub-directory. Users should first run through all scripts in `Askja_VT-DLP_example/generate_results` in order, before running the scripts to build the individual figures. This requires downloading 24h of waveform data from IRIS/EarthScope, which requires approximately 1 GB of disk space, and takes some time (depending on network connection, etc.).
 
-### Figure 10; Supplementary Figure S13
+### Figure 10; Supplementary Figure S14
 Code for these figures is found within the `Askja_QM-manpick_comparison` sub-directory. Code to generate the input results for these figures is provided within `Askja_QM-manpick_comparison/generate_results`, however this example is computationally expensive to run, so the relevant output files for constructing the figures are also provided within the repository. If the user chooses to re-generate the outputs themselves, they should run through the scripts within `generate_results` in order.
 
-Note that there are two versions of the `get_data` script; the first uses the Zenodo API to automatically download, extract, and organise the input data from the accompanying Zenodo repository [![DOI](https://zenodo.org/badge/DOI/)](https://doi.org/10.5281/zenodo.15236744), and requires the user to have a Zenodo account & API access token (see [here](https://zenodo.org/account/settings/applications/tokens/new/)), while the second extracts and organises the zip files after they have been manually downloaded via the webpage. Manual download is the only option until the Zenodo repository is finalised and published (which will occur when the manuscript is hopefully accepted).
+Note that there are two versions of the `get_data` script; the first uses the Zenodo API to automatically download, extract, and organise the input data from the accompanying Zenodo repository [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15236744.svg)](https://doi.org/10.5281/zenodo.15236744), and requires the user to have a Zenodo account & API access token (see [here](https://zenodo.org/account/settings/applications/tokens/new/)), while the second extracts and organises the zip files after they have been manually downloaded via the webpage. Manual download is the only option until the Zenodo repository is finalised and published (which will occur when the manuscript is hopefully accepted).
 
-### Supplementary Figure S3
+### Supplementary Figure S4
 Code to build this figure is found within the `supplementary/synthetic` sub-directory.
 
-### Supplementary Figure S5
-Code to build this figure is found within the `Askja_VT-DLP_example` sub-directory. Users should first run through all scripts in `synthetics/generate_results` in order, before running the scripts to build the individual figures. Note that the secondary `<script>_p_only.py` scripts run the example with only the P onset functions, in order to generate the event summary plot presented in Supplementary Figure S5. The two event summary figures were combined in Affinity Designer.
+### Supplementary Figure S6
+Code to build this figure is found within the `Askja_VT-DLP_example` sub-directory. Users should first run through all scripts in `synthetics/generate_results` in order, before running the scripts to build the individual figures. Note that the secondary `<script>_p_only.py` scripts run the example with only the P onset functions, in order to generate the event summary plot presented in Supplementary Figure S6. The two event summary figures were combined in Affinity Designer.
 
-### Supplementary Figures S6-S10
+### Supplementary Figures S7-S11
 Code for these figures is found within the `supplementary/profiling` sub-directory. Code to profile the performance of QuakeMigrate on the user's system is provided in the `generate-profiles.sh` script. Note that this will run the `Askja_VT-DLP` example several times, sweeping across a range of timesteps, decimation factors, and number of threads. This requires that at least the `Askja_VT-DLP_example/generate_results/0_get_data.py` script has been run beforehand, in order to download the required input waveform data. Once the profiling is complete, users may run the individual `build_figure` scripts to plot the results.
 
-### Supplementary Figure S11
+### Supplementary Figure S12
 Code to build this figure is fond within the `supplementary/icequake_example` sub-directory.
 
 ## Notes

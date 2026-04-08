@@ -1,5 +1,5 @@
 """
-This script builds Supplementary Figure S11 of the manuscript:
+This script builds Supplementary Figure S12 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -109,7 +109,7 @@ labels = pd.read_csv(
     / "../../../data/icequake_example/rutford_icequakes_2009-020_0000-0010_labels.csv"
 )
 
-fig = plt.figure(figsize=(18 / 2.54, 18 / 2.54), facecolor="w")
+fig = plt.figure(figsize=(18 / 2.54, 18 / 2.54), facecolor="w", constrained_layout=True)
 axs = fig.subplots(nrows=2)
 
 # plot COV_Err_XYZ panel
@@ -143,4 +143,4 @@ for ax, letter in zip(axs, ["a", "b"]):
         )
     )
 
-fig.savefig("figureS11.png", dpi=400, bbox_inches="tight")
+fig.savefig("figureS12.png", dpi=400)

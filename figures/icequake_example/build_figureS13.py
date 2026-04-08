@@ -1,5 +1,5 @@
 """
-This script builds Supplementary Figure S12 of the manuscript:
+This script builds Supplementary Figure S13 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -19,12 +19,11 @@ from matplotlib.offsetbox import AnchoredText
 plt.style.use("../../qm_manuscript.mplstyle")
 plt.rcParams.update({"font.family": "Helvetica"})
 
-
 # Read in raw catalogue
 catalogue = pd.read_csv(pathlib.Path.cwd() / "generate_results/rutford_icequakes.csv")
 
 # Set up figure
-fig = plt.figure(figsize=(18 / 2.54, 8 / 2.54), facecolor="w")
+fig = plt.figure(figsize=(18 / 2.54, 8 / 2.54), facecolor="w", constrained_layout=True)
 axs = fig.subplots(ncols=2)
 
 # Histogram for COV_Err_XYZ
@@ -55,7 +54,6 @@ axs[1].set_ylabel("Frequency")
 
 axs[1].legend(fontsize=8)
 
-
 # Add label
 for ax, letter in zip(axs, ["a", "b"]):
     ax.add_artist(
@@ -68,5 +66,4 @@ for ax, letter in zip(axs, ["a", "b"]):
         )
     )
 
-fig.tight_layout()
-fig.savefig("./figureS12.png", dpi=400, bbox_inches="tight")
+fig.savefig("figureS13.png", dpi=400)

@@ -1,5 +1,5 @@
 """
-This script builds Supplementary Figure S13 of the manuscript:
+This script builds Supplementary Figure S14 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -42,7 +42,7 @@ man_qm_combined.loc[:, "delta_sigma_ratio_Z_QM"] = (
 )
 
 # Plot figure
-fig = plt.figure(figsize=(18 / 2.54, 7 / 2.54), facecolor="w")
+fig = plt.figure(figsize=(18 / 2.54, 7 / 2.54), facecolor="w", constrained_layout=True)
 axs = fig.subplots(ncols=3, sharey=True)
 
 for ax, ordinal in zip(axs, ["X", "Y", "Z"]):
@@ -85,6 +85,4 @@ for ax, letter in zip(axs, ["a", "b", "c"]):
         )
     )
 
-fig.tight_layout()
-
-fig.savefig("figureS13.png", dpi=400, bbox_inches="tight")
+fig.savefig("figureS14.png", dpi=400)

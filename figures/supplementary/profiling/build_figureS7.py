@@ -1,5 +1,5 @@
 """
-This script builds Figure S6 of the manuscript:
+This script builds Figure S7 of the manuscript:
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
@@ -144,4 +144,4 @@ ax.set_xlabel("Number of threads")
 ax.set_yticklabels([])
 ax.set_ylim([0, 25])
 
-fig.savefig("FigureS6.png", dpi=400)
+fig.savefig("FigureS7.png", dpi=400)

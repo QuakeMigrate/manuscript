@@ -7,7 +7,7 @@ This repository is home to analysis and visualisation code to support the manusc
 
 Open-access paper: [![DOI](https://img.shields.io/badge/)](https://doi.org/)
 
-Supplementary datafiles: [![DOI](https://zenodo.org/badge/DOI/zenodo.15236744.svg)](https://doi.org/10.5281/zenodo.15236744)
+Supplementary datafiles: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15236744.svg)](https://doi.org/10.5281/zenodo.15236744)
 
 Analysis and visualisation: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16419322.svg)](https://doi.org/10.5281/zenodo.16419322)
 

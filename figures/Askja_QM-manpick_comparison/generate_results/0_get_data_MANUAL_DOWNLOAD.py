@@ -15,15 +15,12 @@ import pathlib
 
 
 # Please ensure all files in the Zenodo repository (found at:
-# https://zenodo.org/records/15236744 ) have been downloaded to a local directory. You
-# will require a sharing link to gain access before the repository has been published.
+# https://zenodo.org/records/15236744 ) have been downloaded to a local directory.
 
 # NOTE: set the "DOWNLOAD_DIR" variable to the location where the zip files and dataless
 # inventory were saved. E.g. "/home/user/Downloads"
 DOWNLOAD_DIR = pathlib.Path("/PATH/TO/DOWNLOAD_DIR")
-INPUTS_DIR = pathlib.Path(
-    "./figures/Askja_QM-manpick_comparison/generate_results/inputs"
-)
+INPUTS_DIR = pathlib.Path("./inputs")
 
 
 # Move dataless file to correct location
@@ -32,11 +29,13 @@ dataless_file = "dataless.xml"
 
 # Extract NLLoc obs files (pick files)
 out_dir = INPUTS_DIR / "NLLOC"
+out_dir.mkdir(parents=True, exist_ok=True)
 z = zipfile.ZipFile(DOWNLOAD_DIR / "obs.zip")
 z.extractall(out_dir)
 
 # Loop through waveform data directories & unzip
 out_dir = INPUTS_DIR / "mSEED"
+out_dir.mkdir(parents=True, exist_ok=True)
 for year_zip in [f"{y}.zip" for y in range(2007, 2016)]:
     print(f"Working on {year_zip}...")
     z = zipfile.ZipFile(DOWNLOAD_DIR / year_zip)

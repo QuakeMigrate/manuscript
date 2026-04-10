@@ -13,13 +13,12 @@ import pathlib
 
 
 # Please ensure all files in the Zenodo repository (found at:
-# https://zenodo.org/records/15236744 ) have been downloaded to a local directory. You
-# will require a sharing link to gain access before the repository has been published.
+# https://zenodo.org/records/15236744 ) have been downloaded to a local directory.
 
 # NOTE: set the "DOWNLOAD_DIR" variable to the location where the zip files and dataless
 # inventory were saved. E.g. "/home/user/Downloads"
 DOWNLOAD_DIR = pathlib.Path("/PATH/TO/DOWNLOAD_DIR")
-PROFILES_DIR = pathlib.Path("./figures/supplementary/profiling")
+PROFILES_DIR = pathlib.Path.cwd()
 
 
 # Extract profiling data

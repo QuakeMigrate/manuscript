@@ -33,7 +33,7 @@ memory_usage = [
 timestep = runtime / (len(memory_usage) - 1)
 timestamps = np.arange(0, runtime + timestep, timestep)
 
-fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(7.08661, 3), constrained_layout=True)
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(7.08661, 3), layout="constrained")
 
 ax.scatter(timestamps, memory_usage, marker="+", c="k", s=20, zorder=2)
 ax.plot(timestamps, memory_usage, lw=1, c="k", zorder=3)
@@ -44,4 +44,4 @@ ax.set_ylim(bottom=0)
 ax.set_xlabel("Time / s")
 ax.set_ylabel("Memory used / GiB")
 
-fig.savefig("FigureS8.png", dpi=400)
+fig.savefig("figureS8.png", dpi=400)

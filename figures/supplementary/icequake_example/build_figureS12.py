@@ -109,7 +109,7 @@ labels = pd.read_csv(
     / "../../../data/icequake_example/rutford_icequakes_2009-020_0000-0010_labels.csv"
 )
 
-fig = plt.figure(figsize=(18 / 2.54, 18 / 2.54), facecolor="w", constrained_layout=True)
+fig = plt.figure(figsize=(18 / 2.54, 18 / 2.54), facecolor="w", layout="constrained")
 axs = fig.subplots(nrows=2)
 
 # plot COV_Err_XYZ panel

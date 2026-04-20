@@ -22,9 +22,7 @@ def make_colours():
     return iter(plt.cm.viridis(np.linspace(0, 10, 11) % 10 / 10))
 
 
-fig, axes = plt.subplots(
-    nrows=2, ncols=2, figsize=(7.08661, 6.8), constrained_layout=True
-)
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(7.08661, 6.8), layout="constrained")
 
 colours = make_colours()
 station_names = [
@@ -104,6 +102,6 @@ for ax in [axes.flatten()[0], axes.flatten()[2]]:
         yt.set_bbox(dict(facecolor=color, edgecolor=color, pad=1))
 
 axes[1][1].set_xlabel("T", c="white")
-fig.suptitle(r"Time $\longrightarrow$", x=0.525, y=0.025)
+fig.suptitle(r"Time $\longrightarrow$", fontsize=10, x=0.525, y=0.02)
 
-plt.savefig("figure3.png", dpi=400)
+fig.savefig("figure3.png", dpi=400)

@@ -34,7 +34,7 @@ for f in sorted(
 ):
     events_df = pd.concat([events_df, pd.read_csv(f)])
     events_df = events_df.reset_index(drop=True)
-events_df.loc[:, "DT"] = pd.to_datetime(events_df.DT).dt.tz_convert(None)
+events_df["DT"] = pd.to_datetime(events_df["DT"]).dt.tz_localize(None)
 
 
 def get_aspect(xmin, xmax, ymin, ymax, zmin, zmax, scale=1000):
@@ -644,7 +644,7 @@ for i, event_id in enumerate(["20111026151311980", "20111026180130180"]):
     )
     ax1.add_artist(
         AnchoredText(
-            (f"M$_L$ {event.ML.values[0]}\n" f"Z = {event.Z.values[0]} km"),
+            f"M$_L$ {event.ML.values[0]}\nZ = {event.Z.values[0]} km",
             loc="lower left",
             prop={"size": 6.5},
             frameon=False,
@@ -705,4 +705,4 @@ for i, event_id in enumerate(["20111026151311980", "20111026180130180"]):
 warnings.filterwarnings(action="ignore", category=UserWarning)
 fig.tight_layout()
 
-plt.savefig("figure8.png", dpi=400, bbox_inches="tight")
+fig.savefig("figure8.png", dpi=400, bbox_inches="tight")

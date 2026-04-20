@@ -23,7 +23,7 @@ plt.rcParams.update({"font.family": "Helvetica"})
 catalogue = pd.read_csv(pathlib.Path.cwd() / "generate_results/rutford_icequakes.csv")
 
 # Set up figure
-fig = plt.figure(figsize=(18 / 2.54, 8 / 2.54), facecolor="w", constrained_layout=True)
+fig = plt.figure(figsize=(18 / 2.54, 8 / 2.54), facecolor="w", layout="constrained")
 axs = fig.subplots(ncols=2)
 
 # Histogram for COV_Err_XYZ

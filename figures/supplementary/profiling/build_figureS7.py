@@ -48,7 +48,7 @@ for profile in (pathlib.Path.cwd() / "profiles").glob("*.bin"):
 
 
 fig, axes = plt.subplots(
-    ncols=3, nrows=2, figsize=(18.5 / 2.54, 8 / 2.54), constrained_layout=True
+    ncols=3, nrows=2, figsize=(18.5 / 2.54, 8 / 2.54), layout="constrained"
 )
 
 # Decimation factor
@@ -144,4 +144,4 @@ ax.set_xlabel("Number of threads")
 ax.set_yticklabels([])
 ax.set_ylim([0, 25])
 
-fig.savefig("FigureS7.png", dpi=400)
+fig.savefig("figureS7.png", dpi=400)

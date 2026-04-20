@@ -222,4 +222,4 @@ xz.set_xlabel(r"Longitude / $\degree$E")
 xz.set_ylabel(f"Depth / {lut.unit_name}")
 xz.yaxis.set_label_position("left")
 
-plt.savefig("figure5.png", dpi=400, bbox_inches="tight")
+fig.savefig("figure5.png", dpi=400, bbox_inches="tight")

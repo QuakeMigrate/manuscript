@@ -20,7 +20,7 @@ lut = read_lut(lut_file="./generate_synthetic_results/outputs/lut/example.LUT")
 
 # Make LUT figure
 fig, axes = plt.subplots(
-    nrows=1, ncols=2, figsize=(7.08661, 7.08661 / 2), constrained_layout=True
+    nrows=1, ncols=2, figsize=(7.08661, 7.08661 / 2), layout="constrained"
 )
 
 ax = axes[0]

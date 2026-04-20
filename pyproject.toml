@@ -1,0 +1,9 @@
+[project]
+name = "manuscript"
+version = "1.0.0"
+description = "Analysis and visualisation scripts for the QuakeMigrate manuscript."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "quakemigrate[manuscript]>=1.2.2",
+]

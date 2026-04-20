@@ -11,3 +11,6 @@ DATALESS/
 synthetic_stations.txt
 4D_coalescence/
 *.angle.*
+*.nonlinloc
+*.bin
+*.xml

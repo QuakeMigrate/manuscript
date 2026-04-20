@@ -30,7 +30,7 @@ earthquake_coords = [0.0, 0.0, 15.0]
 earthquake_ijk = lut.index2coord(earthquake_coords, inverse=True)
 
 # Make figure and axes using semantic layout
-fig = plt.figure(figsize=(18 / 2.54, 9.5 / 2.54), constrained_layout=True)
+fig = plt.figure(figsize=(18 / 2.54, 9.5 / 2.54), layout="constrained")
 ax_dict = fig.subplot_mosaic("ABBC;DEEF", empty_sentinel="X")
 
 ax = ax_dict["A"]
@@ -253,4 +253,4 @@ sc = ax.pcolormesh(
 
 ax.text(0.05, 0.9, "t = OT", transform=ax.transAxes, fontdict={"size": 8, "color": "w"})
 
-plt.savefig("figure1.png", dpi=400)
+fig.savefig("figure1.png", dpi=400)

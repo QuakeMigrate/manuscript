@@ -20,9 +20,9 @@ NAME=figure7
 # --- GMT settings ---
 bash defaults.gmt
 gmt set PS_MEDIA 2000x2000
-gmt set FONT_TITLE 10p,Helvetica
-gmt set FONT_ANNOT 10p,Helvetica
-gmt set FONT_LABEL 10p,Helvetica
+gmt set FONT_TITLE 8p,Helvetica
+gmt set FONT_ANNOT 6p,Helvetica
+gmt set FONT_LABEL 8p,Helvetica
 gmt set MAP_FRAME_TYPE plain
 gmt set MAP_FRAME_PEN 1.5p
 gmt set MAP_TICK_LENGTH 0.25c
@@ -69,9 +69,11 @@ gmt begin plots/$NAME pdf,png
     echo "-83.825 -78.169 Ice flow" | gmt text -F+f10p,Helvetica-Bold,black+jCM+a302
 
     echo "...final basemap..."
-    gmt basemap -BsWne -Ln$(echo "13.5/$wi" | bc -l)/0.05+jCM+c78.15+w2k \
-        --MAP_SCALE_HEIGHT=0.001c -Bx0.1df0.05d -By0.02df0.01d+l"Latitude" \
-        -Tdg-83.75/-78.11+w2c+l,,,N --FONT_TITLE=8p,Helvetica-Bold
+    gmt basemap -Bswne -Ln$(echo "13.5/$wi" | bc -l)/0.05+jCM+c78.15+w2k \
+        --MAP_SCALE_HEIGHT=0.001c -Tdg-83.75/-78.11+w2c+l,,,N --FONT_TITLE=8p,Helvetica-Bold \
+        --FONT_ANNOT=9p,Helvetica
+    gmt basemap -BsWne --MAP_SCALE_HEIGHT=0.001c -Bx0.1df0.05d -By0.02df0.01d+l"Latitude" \
+        --FONT_TITLE=8p,Helvetica-Bold
 
     echo "...plotting events..."
     awk -F ',' 'FNR > 1 {print ($3,$5)}' $CATALOGUE | gmt plot -Sc0.05 \
@@ -122,7 +124,8 @@ EOF
 
     echo "...final basemap..."
     gmt basemap -Bswne -Ln$(echo "5.5/$w" | bc -l)/0.1+jCM+c78.15+w10k \
-        --MAP_SCALE_HEIGHT=0.001c -Tdg-82.85/-77.99+w0.8c+l,,,N --FONT_TITLE=6p,Helvetica-Bold
+        --MAP_SCALE_HEIGHT=0.001c -Tdg-82.85/-77.99+w0.8c+l,,,N --FONT_TITLE=8p,Helvetica-Bold \
+        --FONT_ANNOT=9p,Helvetica
 
 gmt end  # show
 

@@ -88,7 +88,8 @@ topo_bedrock_ew = pd.read_csv(
 
 # Askja calderas
 askja_calderas = []
-for f in sorted((pathlib.Path.cwd() / "XY_FILES").glob("askjacalderas_*.csv")):
+XY_FILES_PATH = pathlib.Path.cwd().parent / "Askja_VT-DLP_example" / "XY_FILES"
+for f in sorted(XY_FILES_PATH.glob("askjacalderas_*.csv")):
     askja_calderas.append(pd.read_csv(f, comment="#", names=["X", "Y"]))
 
 plt.rcParams.update(
@@ -373,7 +374,7 @@ for i, (ordinal, ax) in enumerate(zip(["X_diff", "Y_diff", "Z_diff"], loc_diff_a
         transform=ax.transAxes,
         s=(
             f"Mean δ: {df[ordinal].mean():+.2f} km\n"
-            f"{' '*10}σ:  {df[ordinal].std():.2f} km"
+            f"{' ' * 10}σ:  {df[ordinal].std():.2f} km"
         ),
         fontsize=6.5,
     )
@@ -429,4 +430,4 @@ for i, (ordinal, ax) in enumerate(zip(["X_diff", "Y_diff", "Z_diff"], loc_diff_a
             fontsize=8,
         )
 
-plt.savefig("figure10.png", dpi=400, bbox_inches="tight")
+fig.savefig("figure10.png", dpi=400, bbox_inches="tight")

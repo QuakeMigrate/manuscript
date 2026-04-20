@@ -49,7 +49,7 @@ coalescence = obspy.read(
 
 norm_coa = coalescence.select(station="COA_N")[0]
 
-fig, ax = plt.subplots(1, figsize=(7.08661, 3), constrained_layout=True)
+fig, ax = plt.subplots(1, figsize=(7.08661, 3), layout="constrained")
 
 dt = norm_coa.times(type="utcdatetime")
 dt = [str(datetime) for datetime in dt]
@@ -88,8 +88,8 @@ for _, event in events.iterrows():
 ax.axhline(threshold, label="Detection threshold", color="#2c7fb8", linestyle="--")
 
 ax.set_ylabel("Normalised coalescence")
-ax.set_xlabel("Time")
+ax.set_xlabel("Time / HH:MM:SS")
 ax.xaxis.set_major_formatter(DateFormatter("%H:%M:%S", 2))
 ax.set_xlim([starttime.datetime, endtime.datetime])
 
-plt.savefig("figure6.png", dpi=400)
+fig.savefig("figure6.png", dpi=400)

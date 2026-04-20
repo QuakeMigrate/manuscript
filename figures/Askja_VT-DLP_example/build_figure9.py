@@ -443,4 +443,4 @@ plt.setp(wg.spines.values(), linewidth=1.2)
 warnings.filterwarnings(action="ignore", category=UserWarning)
 fig.tight_layout()
 
-plt.savefig("figure9.png", dpi=400, bbox_inches="tight")
+fig.savefig("figure9.png", dpi=400, bbox_inches="tight")

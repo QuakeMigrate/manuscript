@@ -42,7 +42,7 @@ man_qm_combined.loc[:, "delta_sigma_ratio_Z_QM"] = (
 )
 
 # Plot figure
-fig = plt.figure(figsize=(18 / 2.54, 7 / 2.54), facecolor="w", constrained_layout=True)
+fig = plt.figure(figsize=(18 / 2.54, 7 / 2.54), facecolor="w", layout="constrained")
 axs = fig.subplots(ncols=3, sharey=True)
 
 for ax, ordinal in zip(axs, ["X", "Y", "Z"]):

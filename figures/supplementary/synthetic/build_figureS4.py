@@ -31,9 +31,7 @@ noisy_wavelet = np.roll(
     wavelet.data.copy() + amp_noise, int(wavelet.sps * ttime_noise[0])
 )
 
-fig, axes = plt.subplots(
-    ncols=1, nrows=2, figsize=(7.08661, 4), constrained_layout=True
-)
+fig, axes = plt.subplots(ncols=1, nrows=2, figsize=(7.08661, 4), layout="constrained")
 
 ax = axes[0]
 ax.plot(wavelet.time, wavelet.data, c="k")

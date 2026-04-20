@@ -36,7 +36,7 @@ if depths[1] < depths[0]:
     depths = depths[::-1]
     dip = dip[:, ::-1]
 
-fig, ax = plt.subplots(figsize=(7.08661, 7.08661 / 2), constrained_layout=True)
+fig, ax = plt.subplots(figsize=(7.08661, 7.08661 / 2), layout="constrained")
 
 im = ax.pcolormesh(ranges, depths, dip.T, shading="auto", cmap="viridis")
 

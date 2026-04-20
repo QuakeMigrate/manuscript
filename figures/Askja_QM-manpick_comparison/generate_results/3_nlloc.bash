@@ -2,11 +2,13 @@
 # -------------------------------------------------------------------------------------
 # Script to run NLLoc on the manually picked earthquakes being used in the manual-QM
 # benchmark for the QuakeMigrate manuscript:
-
-#     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
-#     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
-#     Using Waveform Migration and Stacking. (to be submitted to Seismica).
-
+#
+#    Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
+#    QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
+#    Using Waveform Migration and Stacking. Seismica, 2026.
+#
+#    DOI: 10.26443/seismica.v5i1.1854
+#
 # Author: Tom Winder, Oct 2024
 # -------------------------------------------------------------------------------------
 

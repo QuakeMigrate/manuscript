@@ -3,7 +3,7 @@ This repository is home to analysis and visualisation code to support the manusc
 
     Winder, T., Bacon, C.A., Smith, J.D., Hudson, T.S., and White, R.S.
     QuakeMigrate: a Python Package for Automatic Earthquake Detection and Location
-    Using Waveform Migration and Stacking. (to be submitted to Seismica).
+    Using Waveform Migration and Stacking.
 
 Open-access paper: [![DOI](https://img.shields.io/badge/DOI-10.26443/seismica.v5i1.1854-blue)](https://doi.org/10.26443/seismica.v5i1.1854)
 
@@ -27,7 +27,7 @@ conda activate qm_manuscript
 pip install 'quakemigrate[manuscript]'
 ```
 
-Alternatively, if you are using uv you can recreate the exact environment (note: uv uses the clang compiler by default, but you can override this with `export CC=gcc` or similar).
+Alternatively, if you are using uv you can recreate the exact environment (note: uv uses the clang compiler by default, but you can override this with `export CC=gcc` or similar):
 
 ```
 uv sync
@@ -64,7 +64,7 @@ Code for these figures is found within the `Askja_VT-DLP_example` sub-directory.
 ### Figure 10; Supplementary Figure S14
 Code for these figures is found within the `Askja_QM-manpick_comparison` sub-directory. Code to generate the input results for these figures is provided within `Askja_QM-manpick_comparison/generate_results`, however this example is computationally expensive to run, so the relevant output files for constructing the figures are also provided within the repository. If the user chooses to re-generate the outputs themselves, they should run through the scripts within `generate_results` in order.
 
-Note that there are two versions of the `get_data` script; the first uses the Zenodo API to automatically download, extract, and organise the input data from the accompanying Zenodo repository [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15236744.svg)](https://doi.org/10.5281/zenodo.15236744), and requires the user to have a Zenodo account & API access token (see [here](https://zenodo.org/account/settings/applications/tokens/new/)), while the second extracts and organises the zip files after they have been manually downloaded via the webpage. Manual download is the only option until the Zenodo repository is finalised and published (which will occur when the manuscript is hopefully accepted).
+Note that there are two versions of the `get_data` script; the first uses the Zenodo API to automatically download, extract, and organise the input data from the accompanying Zenodo repository [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15236744.svg)](https://doi.org/10.5281/zenodo.15236744), while the second extracts and organises the zip files after they have been manually downloaded via the webpage.
 
 ### Supplementary Figure S4
 Code to build this figure is found within the `supplementary/synthetic` sub-directory.

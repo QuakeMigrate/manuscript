@@ -283,6 +283,7 @@ xz.yaxis.set_label_position("left")
 
 plt.setp(xy.spines.values(), linewidth=1.2)
 plt.setp(xz.spines.values(), linewidth=1.2)
+plt.setp(xz.get_xticklabels()[::2], visible=False)
 
 # Add labels
 xy.add_artist(
@@ -322,7 +323,7 @@ range_order = abs(np.argsort(np.argsort(arrivals[0])) - len(arrivals[0])) * 2
 
 # --- Plot modelled phase arrival times ---
 # estimate the appropriate height for the pick marker line based on the plot height
-s = (wg.get_window_extent().height / (max(range_order) + 1) * 0.4) ** 2
+s = (wg.get_window_extent().height / (max(range_order) + 1) * 0.32) ** 2
 
 # Handle single-phase plotting
 pick_colours = PICK_COLOURS
